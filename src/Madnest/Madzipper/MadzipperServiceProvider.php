@@ -1,11 +1,11 @@
 <?php
 
-namespace Madnest\Zipper;
+namespace Madnest\Madzipper;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
-class ZipperServiceProvider extends ServiceProvider
+class MadzipperServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -25,15 +25,15 @@ class ZipperServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('zipper', function ($app) {
-            $return = $app->make('Chumper\Zipper\Zipper');
+        $this->app->singleton('madzipper', function ($app) {
+            $return = $app->make('Madnest\Madzipper\Madzipper');
 
             return $return;
         });
 
         $this->app->booting(function () {
             $loader = AliasLoader::getInstance();
-            $loader->alias('Zipper', 'Chumper\Zipper\Facades\Zipper');
+            $loader->alias('Madzipper', 'Madnest\Madzipper\Facades\Madzipper');
         });
     }
 
@@ -44,6 +44,6 @@ class ZipperServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['zipper'];
+        return ['madzipper'];
     }
 }

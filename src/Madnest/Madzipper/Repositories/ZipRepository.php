@@ -1,6 +1,6 @@
 <?php
 
-namespace Madnest\Zipper\Repositories;
+namespace Madnest\Madzipper\Repositories;
 
 use Exception;
 use ZipArchive;

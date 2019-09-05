@@ -1,17 +1,17 @@
 <?php
 
-namespace Madnest\Zipper;
+namespace Madnest\Madzipper;
 
-use Chumper\Zipper\Repositories\RepositoryInterface;
+use Chumper\Madzipper\Repositories\RepositoryInterface;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * This Zipper class is a wrapper around the ZipArchive methods with some handy functions
+ * This Madzipper class is a wrapper around the ZipArchive methods with some handy functions
  *
- * Class Zipper
+ * Class Madzipper
  */
-class Zipper
+class Madzipper
 {
     /**
      * Constant for extracting
@@ -79,7 +79,7 @@ class Zipper
      * @throws \Exception
      * @throws \InvalidArgumentException
      *
-     * @return $this Zipper instance
+     * @return $this Madzipper instance
      */
     public function make($pathToFile, $type = 'zip')
     {
@@ -87,10 +87,10 @@ class Zipper
 
         $objectOrName = $type;
         if (is_string($type)) {
-            $objectOrName = 'Chumper\Zipper\Repositories\\' . ucwords($type) . 'Repository';
+            $objectOrName = 'Chumper\Madzipper\Repositories\\' . ucwords($type) . 'Repository';
         }
 
-        if (!is_subclass_of($objectOrName, 'Chumper\Zipper\Repositories\RepositoryInterface')) {
+        if (!is_subclass_of($objectOrName, 'Chumper\Madzipper\Repositories\RepositoryInterface')) {
             throw new \InvalidArgumentException("Class for '{$objectOrName}' must implement RepositoryInterface interface");
         }
 
@@ -247,7 +247,7 @@ class Zipper
      * @param $pathToAdd array|string An array or string of files and folders to add
      * @param null|mixed $fileName
      *
-     * @return $this Zipper instance
+     * @return $this Madzipper instance
      */
     public function add($pathToAdd, $fileName = null)
     {
@@ -277,7 +277,7 @@ class Zipper
      *
      * @param $dirName
      *
-     * @return Zipper
+     * @return Madzipper
      */
     public function addEmptyDir($dirName)
     {
@@ -292,7 +292,7 @@ class Zipper
      * @param $filename string The name of the file to create
      * @param $content string The file contents
      *
-     * @return $this Zipper instance
+     * @return $this Madzipper instance
      */
     public function addString($filename, $content)
     {
@@ -316,7 +316,7 @@ class Zipper
      *
      * @param $fileToRemove array|string The path/array to the files in the zip
      *
-     * @return $this Zipper instance
+     * @return $this Madzipper instance
      */
     public function remove($fileToRemove)
     {

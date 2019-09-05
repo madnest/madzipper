@@ -1,13 +1,13 @@
 <?php
 
-namespace Madnest\Zipper\Facades;
+namespace Madnest\Madzipper\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Zipper extends Facade
+class Madzipper extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'zipper';
+        return 'madzipper';
     }
 }
