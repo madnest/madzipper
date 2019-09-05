@@ -1,6 +1,6 @@
 <?php
 
-namespace Chumper\Zipper;
+namespace Madnest\Zipper;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -18,8 +18,7 @@ class ZipperServiceProvider extends ServiceProvider
      * Bootstrap the application events.
      */
     public function boot()
-    {
-    }
+    { }
 
     /**
      * Register the service provider.

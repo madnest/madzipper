@@ -1,6 +1,6 @@
 <?php
 
-namespace Chumper\Zipper;
+namespace Madnest\Zipper;
 
 use Chumper\Zipper\Repositories\RepositoryInterface;
 
@@ -16,8 +16,7 @@ class ArrayArchive implements RepositoryInterface
      * @param $archiveImplementation
      */
     public function __construct($filePath, $new = false, $archiveImplementation = null)
-    {
-    }
+    { }
 
     /**
      * Add a file to the opened Archive
@@ -116,8 +115,7 @@ class ArrayArchive implements RepositoryInterface
      * Closes the archive and saves it
      */
     public function close()
-    {
-    }
+    { }
 
     /**
      * Add an empty directory

@@ -1,6 +1,6 @@
 <?php
 
-namespace Chumper\Zipper\Repositories;
+namespace Madnest\Zipper\Repositories;
 
 use Exception;
 use Mockery;
@@ -53,7 +53,7 @@ class ZipRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessageRegExp('/Error: Failed to open (.*)ZipRepositoryTest.php! Error: ZipArchive::ER_NOZIP - Not a zip archive./');
-        new ZipRepository(__DIR__.DIRECTORY_SEPARATOR.'ZipRepositoryTest.php', false);
+        new ZipRepository(__DIR__ . DIRECTORY_SEPARATOR . 'ZipRepositoryTest.php', false);
     }
 
     public function testAddFile()

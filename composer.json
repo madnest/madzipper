@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Chumper\\Zipper\\": "src/Chumper/Zipper"
+            "Madnest\\Zipper\\": "src/Madnest/Zipper"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Chumper\\Zipper\\": "tests/"
+            "Madnest\\Zipper\\": "tests/"
         }
     },
     "config": {
@@ -37,10 +37,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Chumper\\Zipper\\ZipperServiceProvider"
+                "Madnest\\Zipper\\ZipperServiceProvider"
             ],
             "aliases": {
-                "Zipper": "Chumper\\Zipper\\Zipper"
+                "Zipper": "Madnest\\Zipper\\Zipper"
             }
         }
     },

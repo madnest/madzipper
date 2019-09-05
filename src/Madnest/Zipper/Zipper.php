@@ -1,6 +1,6 @@
 <?php
 
-namespace Chumper\Zipper;
+namespace Madnest\Zipper;
 
 use Chumper\Zipper\Repositories\RepositoryInterface;
 use Exception;
@@ -100,7 +100,7 @@ class Zipper
             } else {
                 $this->repository = $type;
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw $e;
         }
 
@@ -252,10 +252,10 @@ class Zipper
     public function add($pathToAdd, $fileName = null)
     {
         if (is_array($pathToAdd)) {
-            foreach ($pathToAdd as $key=>$dir) {
+            foreach ($pathToAdd as $key => $dir) {
                 if (!is_int($key)) {
-                    $this->add($dir, $key); }
-                else {
+                    $this->add($dir, $key);
+                } else {
                     $this->add($dir);
                 }
             }
@@ -462,7 +462,7 @@ class Zipper
      */
     public function getInternalPath()
     {
-        return empty($this->currentFolder) ? '' : $this->currentFolder.'/';
+        return empty($this->currentFolder) ? '' : $this->currentFolder . '/';
     }
 
     /**
@@ -480,8 +480,7 @@ class Zipper
         if ($regexFilter) {
             $filter = function ($file) use (&$filesList, $regexFilter) {
                 // push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
-                set_error_handler(function () {
-                });
+                set_error_handler(function () { });
                 $match = preg_match($regexFilter, $file);
                 restore_error_handler();
 
@@ -509,7 +508,7 @@ class Zipper
 
         $lastChar = mb_substr($this->currentFolder, -1);
         if ($lastChar !== '/' || $lastChar !== '\\') {
-            return $this->currentFolder.'/';
+            return $this->currentFolder . '/';
         }
 
         return $this->currentFolder;
@@ -547,14 +546,14 @@ class Zipper
     {
         // First go over the files in this directory and add them to the repository.
         foreach ($this->file->files($pathToDir) as $file) {
-            $this->addFile($pathToDir.'/'.basename($file));
+            $this->addFile($pathToDir . '/' . basename($file));
         }
 
         // Now let's visit the subdirectories and add them, too.
         foreach ($this->file->directories($pathToDir) as $dir) {
             $old_folder = $this->currentFolder;
-            $this->currentFolder = empty($this->currentFolder) ? basename($dir) : $this->currentFolder.'/'.basename($dir);
-            $this->addDir($pathToDir.'/'.basename($dir));
+            $this->currentFolder = empty($this->currentFolder) ? basename($dir) : $this->currentFolder . '/' . basename($dir);
+            $this->addDir($pathToDir . '/' . basename($dir));
             $this->currentFolder = $old_folder;
         }
     }
@@ -570,11 +569,10 @@ class Zipper
         if (!$fileName) {
             $info = pathinfo($pathToAdd);
             $fileName = isset($info['extension']) ?
-                $info['filename'].'.'.$info['extension'] :
-                $info['filename'];
+                $info['filename'] . '.' . $info['extension'] : $info['filename'];
         }
 
-        $this->repository->addFile($pathToAdd, $this->getInternalPath().$fileName);
+        $this->repository->addFile($pathToAdd, $this->getInternalPath() . $fileName);
     }
 
     /**
@@ -585,7 +583,7 @@ class Zipper
      */
     private function addFromString($filename, $content)
     {
-        $this->repository->addFromString($this->getInternalPath().$filename, $content);
+        $this->repository->addFromString($this->getInternalPath() . $filename, $content);
     }
 
     private function extractFilesInternal($path, callable $matchingMethod)
@@ -615,12 +613,12 @@ class Zipper
         $tmpPath = str_replace($this->getInternalPath(), '', $fileName);
 
         // We need to create the directory first in case it doesn't exist
-        $dir = pathinfo($path.DIRECTORY_SEPARATOR.$tmpPath, PATHINFO_DIRNAME);
+        $dir = pathinfo($path . DIRECTORY_SEPARATOR . $tmpPath, PATHINFO_DIRNAME);
         if (!$this->file->exists($dir) && !$this->file->makeDirectory($dir, 0755, true, true)) {
             throw new \RuntimeException('Failed to create folders');
         }
 
-        $toPath = $path.DIRECTORY_SEPARATOR.$tmpPath;
+        $toPath = $path . DIRECTORY_SEPARATOR . $tmpPath;
         $fileStream = $this->getRepository()->getFileStream($fileName);
         $this->getFileHandler()->put($toPath, $fileStream);
     }
