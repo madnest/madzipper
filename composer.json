@@ -41,7 +41,7 @@
                 "Madnest\\Madzipper\\MadzipperServiceProvider"
             ],
             "aliases": {
-                "Zipper": "Madnest\\Madzipper\\Zipper"
+                "Madzipper": "Madnest\\Madzipper\\Madzipper"
             }
         }
     },
