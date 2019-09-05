@@ -3,7 +3,7 @@
 This is a very early stage package that aims to become a successor of [chumper/zipper](https://github.com/Chumper/Zipper) package.
 It started as a fork because we needed Laravel 6.0 compatibility. I will try to make it compatible with Laravel 5.8 and up.
 
-# Zipper
+# Madzipper
 
 This is a simple Wrapper around the ZipArchive methods with some handy functions.
 
@@ -13,21 +13,21 @@ This is a simple Wrapper around the ZipArchive methods with some handy functions
 
 2. Optionally go to `app/config/app.php`
 
-  * add to providers `Madnest\Zipper\ZipperServiceProvider::class`
-  * add to aliases `'Zipper' => Madnest\Zipper\Zipper::class`
+  * add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
+  * add to aliases `'Madzipper' => Madnest\Madzipper\Madzipper::class`
 
-You can now access Zipper with the `Zipper` alias.
+You can now access Madzipper with the `Madzipper` alias.
 
 ## Simple example
 ```php
 $files = glob('public/files/*');
-Zipper::make('public/test.zip')->add($files)->close();
+Madzipper::make('public/test.zip')->add($files)->close();
 ```
 - by default the package will create the `test.zip` in the project route folder but in the example above we changed it to `project_route/public/`.
 
 ## Another example
 ```php
-$zipper = new \Madnest\Zipper\Zipper;
+$zipper = new \Madnest\Madzipper\Madzipper;
 
 $zipper->make('test.zip')->folder('test')->add('composer.json');
 $zipper->zip('test.zip')->folder('test')->add('composer.json','test');
@@ -43,7 +43,7 @@ $zipper->folder('mySuperPackage')->add(
 
 $zipper->getFileContent('mySuperPackage/composer.json');
 
-$zipper->make('test.zip')->extractTo('',array('mySuperPackage/composer.json'),Zipper::WHITELIST);
+$zipper->make('test.zip')->extractTo('', ['mySuperPackage/composer.json'], Madzipper::WHITELIST);
 
 $zipper->close();
 ```
@@ -83,8 +83,8 @@ removes a single file or an array of files from the zip.
 Specify a folder to 'add files to' or 'remove files from' from the zip, example
 
 ```php
-Zipper::make('test.zip')->folder('test')->add('composer.json');
-Zipper::make('test.zip')->folder('test')->remove('composer.json');
+Madzipper::make('test.zip')->folder('test')->add('composer.json');
+Madzipper::make('test.zip')->folder('test')->remove('composer.json');
 ```
 
 ## listFiles($regexFilter = null)
@@ -97,8 +97,8 @@ Lists all files within archive (if no filter pattern is provided). Use `$regexFi
 Example: Return all files/folders ending/not ending with '.log' pattern (case insensitive). This will return matches in sub folders and their sub folders also
 
 ```php
-$logFiles = Zipper::make('test.zip')->listFiles('/\.log$/i');
-$notLogFiles = Zipper::make('test.zip')->listFiles('/^(?!.*\.log).*$/i');
+$logFiles = Madzipper::make('test.zip')->listFiles('/\.log$/i');
+$notLogFiles = Madzipper::make('test.zip')->listFiles('/^(?!.*\.log).*$/i');
 ```
 
 
@@ -131,10 +131,10 @@ closes the zip and writes all changes.
 Extracts the content of the zip archive to the specified location, for example
 
 ```php
-Zipper::make('test.zip')->folder('test')->extractTo('foo');
+Madzipper::make('test.zip')->folder('test')->extractTo('foo');
 ```
 
-This will go into the folder `test` in the zip file and extract the content of that folder only to the folder `foo`, this is equal to using the `Zipper::WHITELIST`.
+This will go into the folder `test` in the zip file and extract the content of that folder only to the folder `foo`, this is equal to using the `Madzipper::WHITELIST`.
 
 This command is really nice to get just a part of the zip file, you can also pass a 2nd & 3rd param to specify a single or an array of files that will be
 
@@ -143,37 +143,37 @@ This command is really nice to get just a part of the zip file, you can also pas
 
 white listed
 
->**Zipper::WHITELIST**
+>**Madzipper::WHITELIST**
 
 ```php
-Zipper::make('test.zip')->extractTo('public', array('vendor'), Zipper::WHITELIST);
+Madzipper::make('test.zip')->extractTo('public', array('vendor'), Madzipper::WHITELIST);
 ```
 
 Which will extract the `test.zip` into the `public` folder but **only** files/folders starting with `vendor` prefix inside the zip will be extracted.
 
 or black listed
 
->**Zipper::BLACKLIST**
+>**Madzipper::BLACKLIST**
 Which will extract the `test.zip` into the `public` folder except files/folders starting with `vendor` prefix inside the zip will not be extracted.
 
 
 ```php
-Zipper::make('test.zip')->extractTo('public', array('vendor'), Zipper::BLACKLIST);
+Madzipper::make('test.zip')->extractTo('public', array('vendor'), Madzipper::BLACKLIST);
 ```
 
->**Zipper::EXACT_MATCH**
+>**Madzipper::EXACT_MATCH**
 
 ```php
-Zipper::make('test.zip')
+Madzipper::make('test.zip')
     ->folder('vendor')
-    ->extractTo('public', array('composer', 'bin/phpunit'), Zipper::WHITELIST | Zipper::EXACT_MATCH);
+    ->extractTo('public', array('composer', 'bin/phpunit'), Madzipper::WHITELIST | Madzipper::EXACT_MATCH);
 ```
 
 Which will extract the `test.zip` into the `public` folder but **only** files/folders **exact matching names**. So this will:
  * extract file or folder named `composer` in folder named `vendor` inside zip to `public` resulting `public/composer`
  * extract file or folder named `bin/phpunit` in `vendor/bin/phpunit` folder inside zip to `public` resulting `public/bin/phpunit`
 
-> **NB:** extracting files/folder from zip without setting Zipper::EXACT_MATCH
+> **NB:** extracting files/folder from zip without setting Madzipper::EXACT_MATCH
 > When zip has similar structure as below and only `test.bat` is given as whitelist/blacklist argument then `extractTo` would extract all those files and folders as they all start with given string
 
 ```
@@ -190,12 +190,12 @@ Extracts the content of the zip archive matching regular expression to the speci
 
 Example: extract all files ending with `.php` from `src` folder and its sub folders.
 ```php
-Zipper::make('test.zip')->folder('src')->extractMatchingRegex($path, '/\.php$/i');
+Madzipper::make('test.zip')->folder('src')->extractMatchingRegex($path, '/\.php$/i');
 ```
 
 Example: extract all files **except** those ending with `test.php` from `src` folder and its sub folders.
 ```php
-Zipper::make('test.zip')->folder('src')->extractMatchingRegex($path, '/^(?!.*test\.php).*$/i');
+Madzipper::make('test.zip')->folder('src')->extractMatchingRegex($path, '/^(?!.*test\.php).*$/i');
 ```
 
 # Development
