@@ -9,15 +9,12 @@ This is a simple Wrapper around the ZipArchive methods with some handy functions
 
 ## Installation
 
-1. Add this package to the list of required packages, inside `composer.json`
-  * for Laravel 5: `"chumper/zipper": "1.0.x"`
-  * ~~for Laravel 4: `"chumper/zipper": "0.5.x"`~~
-2. Run `composer update`
+1. For Laravel >= 5.8: `"madnest/madzipper": "1.0.x"` run `composer require madnest/madzipper`
 
-3. Go to `app/config/app.php`
+2. Optionally go to `app/config/app.php`
 
-  * add to providers `Chumper\Zipper\ZipperServiceProvider::class`
-  * add to aliases `'Zipper' => Chumper\Zipper\Zipper::class`
+  * add to providers `Madnest\Zipper\ZipperServiceProvider::class`
+  * add to aliases `'Zipper' => Madnest\Zipper\Zipper::class`
 
 You can now access Zipper with the `Zipper` alias.
 
@@ -30,7 +27,7 @@ Zipper::make('public/test.zip')->add($files)->close();
 
 ## Another example
 ```php
-$zipper = new \Chumper\Zipper\Zipper;
+$zipper = new \Madnest\Zipper\Zipper;
 
 $zipper->make('test.zip')->folder('test')->add('composer.json');
 $zipper->zip('test.zip')->folder('test')->add('composer.json','test');
