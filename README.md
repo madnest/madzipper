@@ -1,6 +1,7 @@
 # Note
 
-This is a very early stage package that aims to be become a successor of [chumper/zipper](https://github.com/Chumper/Zipper) package.
+This is a very early stage package that aims to become a successor of [chumper/zipper](https://github.com/Chumper/Zipper) package.
+It started as a fork because we needed Laravel 6.0 compatibility. I will try to make it compatible with Laravel 5.8 and up.
 
 # Zipper
 
