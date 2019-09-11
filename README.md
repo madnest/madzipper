@@ -9,7 +9,7 @@ This is a simple Wrapper around the ZipArchive methods with some handy functions
 
 ## Installation
 
-1. For Laravel >= 5.8: `"madnest/madzipper": "1.0.x"` run `composer require madnest/madzipper`
+1. For Laravel 5.8 and 6: `"madnest/madzipper": "1.0.x"` run `composer require madnest/madzipper`
 
 2. Optionally go to `app/config/app.php`
 
