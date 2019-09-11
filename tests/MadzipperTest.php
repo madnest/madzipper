@@ -1,17 +1,19 @@
 <?php
 
-namespace Madnest\Zipper;
+namespace Madnest\Madzipper;
 
-use Exception;
-use Illuminate\Filesystem\Filesystem;
-use InvalidArgumentException;
 use Mockery;
+use Exception;
 use RuntimeException;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use Madnest\Madzipper\Madzipper;
+use Illuminate\Filesystem\Filesystem;
 
-class ZipperTest extends \PHPUnit_Framework_TestCase
+class MadzipperTest extends TestCase
 {
     /**
-     * @var \Chumper\Zipper\Zipper
+     * @var \Madnest\Madzipper\Madzipper
      */
     public $archive;
 
@@ -20,21 +22,21 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
      */
     public $file;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->file = Mockery::mock(new Filesystem());
-        $this->archive = new Zipper($this->file);
+        $this->archive = new Madzipper($this->file);
         $this->archive->make('foo', new ArrayArchive('foo', true));
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Mockery::close();
     }
 
     public function testMake()
     {
-        $this->assertSame('Chumper\\Zipper\\ArrayArchive', $this->archive->getArchiveType());
+        $this->assertSame('Madnest\\Madzipper\\ArrayArchive', $this->archive->getArchiveType());
         $this->assertSame('foo', $this->archive->getFilePath());
     }
 
@@ -46,7 +48,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
             ->with($path, 0755, true)
             ->andReturn(false);
 
-        $zip = new Zipper($this->file);
+        $zip = new Madzipper($this->file);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create folder');
@@ -194,7 +196,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
             ->with(realpath(null) . DIRECTORY_SEPARATOR . 'foo.log', 'foo.log');
 
         $this->archive
-            ->extractTo(getcwd(), ['foo'], Zipper::WHITELIST);
+            ->extractTo(getcwd(), ['foo'], Madzipper::WHITELIST);
     }
 
     public function testExtractToThrowsExceptionWhenCouldNotCreateDirectory()
@@ -219,7 +221,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
         $this->expectExceptionMessage('Failed to create folder');
 
         $this->archive
-            ->extractTo($path, ['foo'], Zipper::WHITELIST);
+            ->extractTo($path, ['foo'], Madzipper::WHITELIST);
     }
 
     public function testExtractWhiteListFromSubDirectory()
@@ -241,7 +243,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
             ->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz.log', 'foo/bar/baz.log');
 
         $this->archive
-            ->extractTo(getcwd(), ['baz'], Zipper::WHITELIST);
+            ->extractTo(getcwd(), ['baz'], Madzipper::WHITELIST);
     }
 
     public function testExtractWhiteListWithExactMatching()
@@ -259,7 +261,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
             ->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz', 'foo/bar/baz');
 
         $this->archive
-            ->extractTo(getcwd(), ['baz'], Zipper::WHITELIST | Zipper::EXACT_MATCH);
+            ->extractTo(getcwd(), ['baz'], Madzipper::WHITELIST | Madzipper::EXACT_MATCH);
     }
 
     public function testExtractWhiteListWithExactMatchingFromSubDirectory()
@@ -282,7 +284,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
             ->with($subDirectoryFilePath, 'foo/bar/subDirectory/bazInSubDirectory');
 
         $this->archive
-            ->extractTo(getcwd(), ['subDirectory/bazInSubDirectory'], Zipper::WHITELIST | Zipper::EXACT_MATCH);
+            ->extractTo(getcwd(), ['subDirectory/bazInSubDirectory'], Madzipper::WHITELIST | Madzipper::EXACT_MATCH);
 
         $this->file->shouldHaveReceived('makeDirectory')->with($subDirectoryPath, 0755, true, true);
     }
@@ -301,7 +303,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
         $this->file->shouldReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'foo', 'foo');
         $this->file->shouldNotReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'bar', 'bar');
 
-        $this->archive->extractTo(getcwd(), ['bar'], Zipper::BLACKLIST);
+        $this->archive->extractTo(getcwd(), ['bar'], Madzipper::BLACKLIST);
     }
 
     public function testExtractBlackListFromSubDirectory()
@@ -326,7 +328,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
         $this->file->shouldNotReceive('put')->with($currentDir . DIRECTORY_SEPARATOR . 'fileBlackListedInSubDir', 'fileBlackListedInSubDir');
         $this->file->shouldNotReceive('put')->with($currentDir . DIRECTORY_SEPARATOR . 'rootLevelFile', 'rootLevelFile');
 
-        $this->archive->extractTo($currentDir, ['fileBlackListedInSubDir'], Zipper::BLACKLIST);
+        $this->archive->extractTo($currentDir, ['fileBlackListedInSubDir'], Madzipper::BLACKLIST);
     }
 
     public function testExtractBlackListFromSubDirectoryWithExactMatching()
@@ -344,7 +346,7 @@ class ZipperTest extends \PHPUnit_Framework_TestCase
 
         $this->file->shouldReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz.log', 'foo/bar/baz.log');
 
-        $this->archive->extractTo(getcwd(), ['baz'], Zipper::BLACKLIST | Zipper::EXACT_MATCH);
+        $this->archive->extractTo(getcwd(), ['baz'], Madzipper::BLACKLIST | Madzipper::EXACT_MATCH);
     }
 
     public function testExtractMatchingRegexFromSubFolder()
