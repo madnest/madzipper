@@ -2,9 +2,10 @@
 
 namespace Madnest\Madzipper;
 
-use Chumper\Madzipper\Repositories\RepositoryInterface;
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
+use Madnest\Madzipper\Repositories\RepositoryInterface;
 
 /**
  * This Madzipper class is a wrapper around the ZipArchive methods with some handy functions
@@ -87,10 +88,10 @@ class Madzipper
 
         $objectOrName = $type;
         if (is_string($type)) {
-            $objectOrName = 'Chumper\Madzipper\Repositories\\' . ucwords($type) . 'Repository';
+            $objectOrName = 'Madnest\Madzipper\Repositories\\' . ucwords($type) . 'Repository';
         }
 
-        if (!is_subclass_of($objectOrName, 'Chumper\Madzipper\Repositories\RepositoryInterface')) {
+        if (!is_subclass_of($objectOrName, 'Madnest\Madzipper\Repositories\RepositoryInterface')) {
             throw new \InvalidArgumentException("Class for '{$objectOrName}' must implement RepositoryInterface interface");
         }
 
@@ -180,7 +181,7 @@ class Madzipper
             };
         } else {
             $matchingMethod = function ($haystack) use ($files) {
-                return starts_with($haystack, $files);
+                return Str::startsWith($haystack, $files);
             };
         }
 
@@ -323,7 +324,7 @@ class Madzipper
         if (is_array($fileToRemove)) {
             $self = $this;
             $this->repository->each(function ($file) use ($fileToRemove, $self) {
-                if (starts_with($file, $fileToRemove)) {
+                if (Str::startsWith($file, $fileToRemove)) {
                     $self->getRepository()->removeFile($file);
                 }
             });
@@ -591,7 +592,7 @@ class Madzipper
         $self = $this;
         $this->repository->each(function ($fileName) use ($path, $matchingMethod, $self) {
             $currentPath = $self->getCurrentFolderWithTrailingSlash();
-            if (!empty($currentPath) && !starts_with($fileName, $currentPath)) {
+            if (!empty($currentPath) && !Str::startsWith($fileName, $currentPath)) {
                 return;
             }
 
