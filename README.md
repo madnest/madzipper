@@ -7,6 +7,8 @@ It started as a fork because we needed Laravel 6.0 compatibility. I will try to 
 
 This is a simple Wrapper around the ZipArchive methods with some handy functions.
 
+[![Build Status](https://travis-ci.com/madnest/madzipper.svg?branch=master)](https://travis-ci.com/madnest/madzipper)
+
 ## Installation
 
 1. For Laravel 5.8 and 6: `"madnest/madzipper": "1.0.x"` run `composer require madnest/madzipper`
