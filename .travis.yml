@@ -1,34 +1,29 @@
+sudo: required
+
 language: php
 
-sudo: false
-
 php:
-  - 5.6
-  - 7.0
-  - 7.1
   - 7.2
   - 7.3
 
 env:
-  global:
-    - setup=basic
-
-matrix:
-  fast_finish: true
-  include:
-    - php: 5.6
-      env: setup=lowest
-    - php: 5.6
-      env: setup=stable
-
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
 
 before_install:
-  - composer self-update
-  - composer clear-cache
+  - sudo apt-get update
+  - travis_retry composer self-update
 
 install:
-  - if [[ $setup = 'basic' ]]; then travis_retry composer update --no-interaction --prefer-dist --no-suggest; fi
-  - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
-  - if [[ $setup = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
+  - yes | pecl install imagick
+  - sudo apt-get install -y ghostscript
+  - travis_retry composer update --prefer-source $COMPOSER_FLAGS
+  - travis_retry composer require league/flysystem-aws-s3-v3
 
-script: vendor/bin/phpunit
+script:
+  - vendor/bin/phpunit
+
+branches:
+  only:
+    - master
