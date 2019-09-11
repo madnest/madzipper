@@ -1,10 +1,12 @@
 <?php
 
-namespace Madnest\Zipper\Repositories;
+namespace Madnest\Madzipper\Repositories;
 
-use Exception;
 use Mockery;
+use Exception;
 use ZipArchive;
+use PHPUnit\Framework\TestCase;
+use Madnest\Madzipper\Repositories\ZipRepository;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -13,7 +15,7 @@ use ZipArchive;
  * Time: 20:57
  * To change this template use File | Settings | File Templates.
  */
-class ZipRepositoryTest extends \PHPUnit_Framework_TestCase
+class ZipRepositoryTest extends TestCase
 {
     /**
      * @var ZipRepository
@@ -25,13 +27,13 @@ class ZipRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public $mock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mock = Mockery::mock(new ZipArchive());
         $this->zip = new ZipRepository('foo', true, $this->mock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Mockery::close();
     }
