@@ -1,7 +1,7 @@
 # Note
 
 This is a very early stage package that aims to become a successor of [chumper/zipper](https://github.com/Chumper/Zipper) package.
-It started as a fork because we needed Laravel 6.0 compatibility. I will try to make it compatible with Laravel 5.8 and up.
+It started as a fork because we needed Laravel 6.0 compatibility. I will try to make it compatible with Laravel 6 and up.
 
 # Madzipper
 
@@ -11,7 +11,7 @@ This is a simple Wrapper around the ZipArchive methods with some handy functions
 
 ## Installation
 
-1. For Laravel 5.8 and 6: `"madnest/madzipper": "1.0.x"` run `composer require madnest/madzipper`
+1. For Laravel 6: `"madnest/madzipper": "1.0.x"` run `composer require madnest/madzipper`
 
 2. Optionally go to `app/config/app.php`
 
