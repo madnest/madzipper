@@ -1,11 +1,11 @@
 <?php
 
-namespace Madnest\Madzipper\Repositories;
+namespace Madnest\Madzipper\Tests\Repositories;
 
 use Mockery;
 use Exception;
 use ZipArchive;
-use PHPUnit\Framework\TestCase;
+use Madnest\Madzipper\Tests\TestCase;
 use Madnest\Madzipper\Repositories\ZipRepository;
 
 /**
@@ -31,6 +31,8 @@ class ZipRepositoryTest extends TestCase
     {
         $this->mock = Mockery::mock(new ZipArchive());
         $this->zip = new ZipRepository('foo', true, $this->mock);
+
+        parent::setUp();
     }
 
     protected function tearDown(): void
@@ -38,27 +40,34 @@ class ZipRepositoryTest extends TestCase
         Mockery::close();
     }
 
-    public function testMake()
+    /** @test */
+    public function a_zip_repository_can_be_made()
     {
         $zip = new ZipRepository('foo.zip', true);
         $this->assertFalse($zip->fileExists('foo'));
     }
 
-    public function testOpenNonExistentZipThrowsException()
+    /** @test */
+    public function it_throws_an_exception_when_trying_to_open_non_existing_zip()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Error: Failed to open idonotexist.zip! Error: ZipArchive::ER_');
         new ZipRepository('idonotexist.zip', false);
     }
 
-    public function testOpenNonZipThrowsException()
+    /** @test */
+    public function it_throws_an_exception_when_trying_to_open_something_else_than_a_zip()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessageRegExp('/Error: Failed to open (.*)ZipRepositoryTest.php! Error: ZipArchive::ER_NOZIP - Not a zip archive./');
+        $this->expectExceptionMessageMatches('/Error: Failed to open (.*)ZipRepositoryTest.php! Error: ZipArchive::ER_NOZIP - Not a zip archive./');
         new ZipRepository(__DIR__ . DIRECTORY_SEPARATOR . 'ZipRepositoryTest.php', false);
     }
 
-    public function testAddFile()
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     * */
+    public function it_can_add_files()
     {
         $this->mock->shouldReceive('addFile')->once()->with('bar', 'bar');
         $this->mock->shouldReceive('addFile')->once()->with('bar', 'foo/bar');
@@ -69,7 +78,11 @@ class ZipRepositoryTest extends TestCase
         $this->zip->addFile('foo/bar', 'bar');
     }
 
-    public function testRemoveFile()
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     * */
+    public function it_can_remove_files()
     {
         $this->mock->shouldReceive('deleteName')->once()->with('bar');
         $this->mock->shouldReceive('deleteName')->once()->with('foo/bar');
@@ -78,7 +91,8 @@ class ZipRepositoryTest extends TestCase
         $this->zip->removeFile('foo/bar');
     }
 
-    public function testGetFileContent()
+    /** @test */
+    public function it_can_get_file_content()
     {
         $this->mock->shouldReceive('getFromName')->once()
             ->with('bar')->andReturn('foo');
@@ -89,7 +103,8 @@ class ZipRepositoryTest extends TestCase
         $this->assertSame('baz', $this->zip->getFileContent('foo/bar'));
     }
 
-    public function testGetFileStream()
+    /** @test */
+    public function is_can_get_file_stream()
     {
         $this->mock->shouldReceive('getStream')->once()
             ->with('bar')->andReturn('foo');
@@ -100,7 +115,8 @@ class ZipRepositoryTest extends TestCase
         $this->assertSame('baz', $this->zip->getFileStream('foo/bar'));
     }
 
-    public function testFileExists()
+    /** @test */
+    public function it_can_tell_wether_file_exists()
     {
         $this->mock->shouldReceive('locateName')->once()
             ->with('bar')->andReturn(true);
@@ -111,7 +127,11 @@ class ZipRepositoryTest extends TestCase
         $this->assertFalse($this->zip->fileExists('foo/bar'));
     }
 
-    public function testClose()
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     * */
+    public function it_can_close()
     {
         $this->zip->close();
     }
