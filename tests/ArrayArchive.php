@@ -1,6 +1,6 @@
 <?php
 
-namespace Madnest\Madzipper;
+namespace Madnest\Madzipper\Tests;
 
 use Madnest\Madzipper\Repositories\RepositoryInterface;
 
@@ -16,7 +16,8 @@ class ArrayArchive implements RepositoryInterface
      * @param $archiveImplementation
      */
     public function __construct($filePath, $new = false, $archiveImplementation = null)
-    { }
+    {
+    }
 
     /**
      * Add a file to the opened Archive
@@ -115,7 +116,8 @@ class ArrayArchive implements RepositoryInterface
      * Closes the archive and saves it
      */
     public function close()
-    { }
+    {
+    }
 
     /**
      * Add an empty directory
