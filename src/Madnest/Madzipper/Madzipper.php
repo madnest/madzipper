@@ -3,8 +3,8 @@
 namespace Madnest\Madzipper;
 
 use Exception;
-use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Madnest\Madzipper\Repositories\RepositoryInterface;
 
 /**
@@ -91,7 +91,7 @@ class Madzipper
             $objectOrName = 'Madnest\Madzipper\Repositories\\' . ucwords($type) . 'Repository';
         }
 
-        if (!is_subclass_of($objectOrName, 'Madnest\Madzipper\Repositories\RepositoryInterface')) {
+        if (! is_subclass_of($objectOrName, 'Madnest\Madzipper\Repositories\RepositoryInterface')) {
             throw new \InvalidArgumentException("Class for '{$objectOrName}' must implement RepositoryInterface interface");
         }
 
@@ -171,7 +171,7 @@ class Madzipper
      */
     public function extractTo($path, array $files = [], $methodFlags = self::BLACKLIST)
     {
-        if (!$this->file->exists($path) && !$this->file->makeDirectory($path, 0755, true)) {
+        if (! $this->file->exists($path) && ! $this->file->makeDirectory($path, 0755, true)) {
             throw new \RuntimeException('Failed to create folder');
         }
 
@@ -190,7 +190,7 @@ class Madzipper
         } else {
             // blacklist - extract files that do not match with $matchingMethod
             $this->extractFilesInternal($path, function ($filename) use ($matchingMethod) {
-                return !$matchingMethod($filename);
+                return ! $matchingMethod($filename);
             });
         }
     }
@@ -239,6 +239,7 @@ class Madzipper
         if ($this->repository->fileExists($filePath) === false) {
             throw new Exception(sprintf('The file "%s" cannot be found', $filePath));
         }
+
         return $this->repository->getFileContent($filePath);
     }
 
@@ -254,7 +255,7 @@ class Madzipper
     {
         if (is_array($pathToAdd)) {
             foreach ($pathToAdd as $key => $dir) {
-                if (!is_int($key)) {
+                if (! is_int($key)) {
                     $this->add($dir, $key);
                 } else {
                     $this->add($dir);
@@ -481,7 +482,8 @@ class Madzipper
         if ($regexFilter) {
             $filter = function ($file) use (&$filesList, $regexFilter) {
                 // push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
-                set_error_handler(function () { });
+                set_error_handler(function () {
+                });
                 $match = preg_match($regexFilter, $file);
                 restore_error_handler();
 
@@ -526,11 +528,11 @@ class Madzipper
      */
     private function createArchiveFile($pathToZip)
     {
-        if (!$this->file->exists($pathToZip)) {
+        if (! $this->file->exists($pathToZip)) {
             $dirname = dirname($pathToZip);
-            if (!$this->file->exists($dirname) && !$this->file->makeDirectory($dirname, 0755, true)) {
+            if (! $this->file->exists($dirname) && ! $this->file->makeDirectory($dirname, 0755, true)) {
                 throw new \RuntimeException('Failed to create folder');
-            } elseif (!$this->file->isWritable($dirname)) {
+            } elseif (! $this->file->isWritable($dirname)) {
                 throw new Exception(sprintf('The path "%s" is not writeable', $pathToZip));
             }
 
@@ -567,7 +569,7 @@ class Madzipper
      */
     private function addFile($pathToAdd, $fileName = null)
     {
-        if (!$fileName) {
+        if (! $fileName) {
             $info = pathinfo($pathToAdd);
             $fileName = isset($info['extension']) ?
                 $info['filename'] . '.' . $info['extension'] : $info['filename'];
@@ -592,7 +594,7 @@ class Madzipper
         $self = $this;
         $this->repository->each(function ($fileName) use ($path, $matchingMethod, $self) {
             $currentPath = $self->getCurrentFolderWithTrailingSlash();
-            if (!empty($currentPath) && !Str::startsWith($fileName, $currentPath)) {
+            if (! empty($currentPath) && ! Str::startsWith($fileName, $currentPath)) {
                 return;
             }
 
@@ -619,7 +621,7 @@ class Madzipper
         }
         // We need to create the directory first in case it doesn't exist
         $dir = pathinfo($path . DIRECTORY_SEPARATOR . $tmpPath, PATHINFO_DIRNAME);
-        if (!$this->file->exists($dir) && !$this->file->makeDirectory($dir, 0755, true, true)) {
+        if (! $this->file->exists($dir) && ! $this->file->makeDirectory($dir, 0755, true, true)) {
             throw new \RuntimeException('Failed to create folders');
         }
 

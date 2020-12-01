@@ -23,7 +23,7 @@ class ZipRepository implements RepositoryInterface
     public function __construct($filePath, $create = false, $archive = null)
     {
         //Check if ZipArchive is available
-        if (!class_exists('ZipArchive')) {
+        if (! class_exists('ZipArchive')) {
             throw new Exception('Error: Your PHP version is not compiled with zip support');
         }
         $this->archive = $archive ? $archive : new ZipArchive();
@@ -116,7 +116,7 @@ class ZipRepository implements RepositoryInterface
             }
             call_user_func_array($callback, [
                 'file' => $this->archive->getNameIndex($i),
-                'stats' => $this->archive->statIndex($i)
+                'stats' => $this->archive->statIndex($i),
             ]);
         }
     }
