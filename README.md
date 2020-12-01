@@ -7,27 +7,30 @@ It started as a fork because we needed Laravel 6.0 compatibility. I will try to 
 
 This is a simple Wrapper around the ZipArchive methods with some handy functions.
 
-[![Build Status](https://travis-ci.com/madnest/madzipper.svg?branch=master)](https://travis-ci.com/madnest/madzipper)
+[![Build Status](https://github.com/madnest/madzipper/workflows/run-tests/badge.svg)](https://github.com/madnest/madzipper/actions)
 
 ## Installation
 
-1. For Laravel 6, 7 or 8: `"madnest/madzipper": "1.0.x"` run `composer require madnest/madzipper`
+1. `"madnest/madzipper": "1.0.x"` can be installed by running `composer require madnest/madzipper`
 
-2. Optionally go to `app/config/app.php`
+2. Optionally when using with Laravel 8, 7 or 6, go to `app/config/app.php`
 
-  * add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
-  * add to aliases `'Madzipper' => Madnest\Madzipper\Madzipper::class`
+-   add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
+-   add to aliases `'Madzipper' => Madnest\Madzipper\Madzipper::class`
 
 You can now access Madzipper with the `Madzipper` alias.
 
-## Simple example
+## Simple Laravel example by using Madzipper facade
+
 ```php
 $files = glob('public/files/*');
 Madzipper::make('public/test.zip')->add($files)->close();
 ```
-- by default the package will create the `test.zip` in the project route folder but in the example above we changed it to `project_route/public/`.
+
+-   by default the package will create the `test.zip` in the project route folder but in the example above we changed it to `project_route/public/`.
 
 ## Another example
+
 ```php
 $zipper = new \Madnest\Madzipper\Madzipper;
 
@@ -56,7 +59,6 @@ You can easily chain most functions, except `getFileContent`, `getStatus`, `clos
 
 The main reason I wrote this little package is the `extractTo` method since it allows you to be very flexible when extracting zips. So you can for example implement an update method which will just override the changed files.
 
-
 # Functions
 
 ## make($pathToFile)
@@ -64,21 +66,17 @@ The main reason I wrote this little package is the `extractTo` method since it a
 `Create` or `Open` a zip archive; if the file does not exists it will create a new one.
 It will return the Zipper instance so you can chain easily.
 
-
 ## add($files/folder)
 
 You can add an array of Files, or a Folder and all the files in that folder will then be added, so from the first example we could instead do something like `$files = 'public/files/';`.
-
 
 ## addString($filename, $content)
 
 add a single file to the zip by specifying a name and the content as strings.
 
-
 ## remove($file/s)
 
 removes a single file or an array of files from the zip.
-
 
 ## folder($folder)
 
@@ -95,14 +93,12 @@ Lists all files within archive (if no filter pattern is provided). Use `$regexFi
 
 > NB: `listFiles` ignores folder set with `folder` function
 
-
 Example: Return all files/folders ending/not ending with '.log' pattern (case insensitive). This will return matches in sub folders and their sub folders also
 
 ```php
 $logFiles = Madzipper::make('test.zip')->listFiles('/\.log$/i');
 $notLogFiles = Madzipper::make('test.zip')->listFiles('/^(?!.*\.log).*$/i');
 ```
-
 
 ## home()
 
@@ -112,21 +108,17 @@ Resets the folder pointer.
 
 Uses the ZipRepository for file handling.
 
-
 ## getFileContent($filePath)
 
 get the content of a file in the zip. This will return the content or false.
-
 
 ## getStatus()
 
 get the opening status of the zip as integer.
 
-
 ## close()
 
 closes the zip and writes all changes.
-
 
 ## extractTo($path)
 
@@ -145,7 +137,7 @@ This command is really nice to get just a part of the zip file, you can also pas
 
 white listed
 
->**Madzipper::WHITELIST**
+> **Madzipper::WHITELIST**
 
 ```php
 Madzipper::make('test.zip')->extractTo('public', array('vendor'), Madzipper::WHITELIST);
@@ -155,15 +147,14 @@ Which will extract the `test.zip` into the `public` folder but **only** files/fo
 
 or black listed
 
->**Madzipper::BLACKLIST**
-Which will extract the `test.zip` into the `public` folder except files/folders starting with `vendor` prefix inside the zip will not be extracted.
-
+> **Madzipper::BLACKLIST**
+> Which will extract the `test.zip` into the `public` folder except files/folders starting with `vendor` prefix inside the zip will not be extracted.
 
 ```php
 Madzipper::make('test.zip')->extractTo('public', array('vendor'), Madzipper::BLACKLIST);
 ```
 
->**Madzipper::EXACT_MATCH**
+> **Madzipper::EXACT_MATCH**
 
 ```php
 Madzipper::make('test.zip')
@@ -172,8 +163,9 @@ Madzipper::make('test.zip')
 ```
 
 Which will extract the `test.zip` into the `public` folder but **only** files/folders **exact matching names**. So this will:
- * extract file or folder named `composer` in folder named `vendor` inside zip to `public` resulting `public/composer`
- * extract file or folder named `bin/phpunit` in `vendor/bin/phpunit` folder inside zip to `public` resulting `public/bin/phpunit`
+
+-   extract file or folder named `composer` in folder named `vendor` inside zip to `public` resulting `public/composer`
+-   extract file or folder named `bin/phpunit` in `vendor/bin/phpunit` folder inside zip to `public` resulting `public/bin/phpunit`
 
 > **NB:** extracting files/folder from zip without setting Madzipper::EXACT_MATCH
 > When zip has similar structure as below and only `test.bat` is given as whitelist/blacklist argument then `extractTo` would extract all those files and folders as they all start with given string
@@ -191,11 +183,13 @@ test.zip
 Extracts the content of the zip archive matching regular expression to the specified location. See [Pattern Syntax](http://php.net/manual/en/reference.pcre.pattern.syntax.php) for regular expression syntax.
 
 Example: extract all files ending with `.php` from `src` folder and its sub folders.
+
 ```php
 Madzipper::make('test.zip')->folder('src')->extractMatchingRegex($path, '/\.php$/i');
 ```
 
 Example: extract all files **except** those ending with `test.php` from `src` folder and its sub folders.
+
 ```php
 Madzipper::make('test.zip')->folder('src')->extractMatchingRegex($path, '/^(?!.*test\.php).*$/i');
 ```
