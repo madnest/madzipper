@@ -2,11 +2,11 @@
 
 namespace Madnest\Madzipper\Tests\Repositories;
 
-use Mockery;
 use Exception;
-use ZipArchive;
-use Madnest\Madzipper\Tests\TestCase;
 use Madnest\Madzipper\Repositories\ZipRepository;
+use Madnest\Madzipper\Tests\TestCase;
+use Mockery;
+use ZipArchive;
 
 /**
  * Created by JetBrains PhpStorm.

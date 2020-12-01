@@ -2,14 +2,12 @@
 
 namespace Madnest\Madzipper\Tests;
 
-use Mockery;
 use Exception;
-use RuntimeException;
+use Illuminate\Filesystem\Filesystem;
 use InvalidArgumentException;
 use Madnest\Madzipper\Madzipper;
-use Illuminate\Filesystem\Filesystem;
-use Madnest\Madzipper\Tests\TestCase;
-use Madnest\Madzipper\Tests\ArrayArchive;
+use Mockery;
+use RuntimeException;
 
 class MadzipperTest extends TestCase
 {
