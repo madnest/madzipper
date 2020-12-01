@@ -194,6 +194,16 @@ Example: extract all files **except** those ending with `test.php` from `src` fo
 Madzipper::make('test.zip')->folder('src')->extractMatchingRegex($path, '/^(?!.*test\.php).*$/i');
 ```
 
+## Testing
+
+```bash
+composer test
+```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
 # Development
 
 Maybe it is a good idea to add other compression functions like rar, phar or bzip2 etc...
