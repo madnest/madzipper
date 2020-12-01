@@ -7,7 +7,7 @@ It started as a fork because we needed Laravel 6.0 compatibility. I will try to 
 
 This is a simple Wrapper around the ZipArchive methods with some handy functions.
 
-[![Tests Actions Status](https://github.com/madnest/madzipper/workflows/run-tests/badge.svg)](https://github.com/madnest/madzipper/actions)
+[![Build Status](https://github.com/madnest/madzipper/workflows/Tests/badge.svg)](https://github.com/madnest/madzipper/actions)
 
 ## Installation
 
