@@ -114,10 +114,7 @@ class ZipRepository implements RepositoryInterface
             if ($stats['size'] === 0 && $stats['crc'] === 0) {
                 continue;
             }
-            call_user_func_array($callback, [
-                'file' => $this->archive->getNameIndex($i),
-                'stats' => $this->archive->statIndex($i),
-            ]);
+            $callback($this->archive->getNameIndex($i), $this->archive->statIndex($i));
         }
     }
 
