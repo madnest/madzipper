@@ -8,13 +8,6 @@ use Madnest\Madzipper\Tests\TestCase;
 use Mockery;
 use ZipArchive;
 
-/**
- * Created by JetBrains PhpStorm.
- * User: Nils
- * Date: 28.08.13
- * Time: 20:57
- * To change this template use File | Settings | File Templates.
- */
 class ZipRepositoryTest extends TestCase
 {
     /**
