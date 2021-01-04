@@ -204,6 +204,6 @@ class ZipRepository implements RepositoryInterface
      * @return bool
      */
     public function setEncryptionIndex($index, $method, $password = null) {
-        return $this->archive->setEncryptionIndex($index, $method, $password = null);
+        return $this->archive->setEncryptionIndex($index, $method, $password);
     }
 }
