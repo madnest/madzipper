@@ -9,7 +9,7 @@ class ArrayArchive implements RepositoryInterface
     private $entries = [];
 
     /**
-     * Construct with a given path
+     * Construct with a given path.
      *
      * @param $filePath
      * @param bool $new
@@ -20,7 +20,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Add a file to the opened Archive
+     * Add a file to the opened Archive.
      *
      * @param $pathToFile
      * @param $pathInArchive
@@ -31,7 +31,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Add a file to the opened Archive using its contents
+     * Add a file to the opened Archive using its contents.
      *
      * @param $name
      * @param $content
@@ -42,7 +42,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Remove a file permanently from the Archive
+     * Remove a file permanently from the Archive.
      *
      * @param $pathInArchive
      */
@@ -52,7 +52,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Get the content of a file
+     * Get the content of a file.
      *
      * @param $pathInArchive
      *
@@ -64,7 +64,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Get the stream of a file
+     * Get the stream of a file.
      *
      * @param $pathInArchive
      *
@@ -77,7 +77,7 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Will loop over every item in the archive and will execute the callback on them
-     * Will provide the filename for every item
+     * Will provide the filename for every item.
      *
      * @param $callback
      */
@@ -91,7 +91,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Checks whether the file is in the archive
+     * Checks whether the file is in the archive.
      *
      * @param $fileInArchive
      *
@@ -103,7 +103,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Returns the status of the archive as a string
+     * Returns the status of the archive as a string.
      *
      * @return string
      */
@@ -113,14 +113,14 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Closes the archive and saves it
+     * Closes the archive and saves it.
      */
     public function close()
     {
     }
 
     /**
-     * Add an empty directory
+     * Add an empty directory.
      *
      * @param $dirName
      */
@@ -130,7 +130,7 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
-     * Sets the password to be used for decompressing
+     * Sets the password to be used for decompressing.
      *
      * @param $password
      */
