@@ -45,7 +45,7 @@ class MadzipperTest extends TestCase
     /** @test */
     public function is_throws_an_exception_when_directory_could_not_be_created()
     {
-        $path = getcwd() . time();
+        $path = getcwd().time();
 
         $this->file->shouldReceive('makeDirectory')
             ->with($path, 0755, true)
@@ -56,7 +56,7 @@ class MadzipperTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create folder');
 
-        $zip->make($path . DIRECTORY_SEPARATOR . 'createMe.zip');
+        $zip->make($path.DIRECTORY_SEPARATOR.'createMe.zip');
     }
 
     /** @test */
@@ -202,11 +202,11 @@ class MadzipperTest extends TestCase
 
         $this->file
             ->shouldReceive('put')
-            ->with(realpath(null) . DIRECTORY_SEPARATOR . 'foo', 'foo');
+            ->with(realpath('').DIRECTORY_SEPARATOR.'foo', 'foo');
 
         $this->file
             ->shouldReceive('put')
-            ->with(realpath(null) . DIRECTORY_SEPARATOR . 'foo.log', 'foo.log');
+            ->with(realpath('').DIRECTORY_SEPARATOR.'foo.log', 'foo.log');
 
         $this->archive
             ->extractTo(getcwd(), ['foo'], Madzipper::WHITELIST);
@@ -215,7 +215,7 @@ class MadzipperTest extends TestCase
     /** @test */
     public function extracting_throws_exception_when_it_could_not_create_directory()
     {
-        $path = getcwd() . time();
+        $path = getcwd().time();
 
         $this->file
             ->shouldReceive('isFile')
@@ -229,7 +229,7 @@ class MadzipperTest extends TestCase
         $this->archive->add('foo.log');
 
         $this->file->shouldNotReceive('put')
-            ->with(realpath(null) . DIRECTORY_SEPARATOR . 'foo.log', 'foo.log');
+            ->with(realpath('').DIRECTORY_SEPARATOR.'foo.log', 'foo.log');
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create folder');
@@ -254,11 +254,11 @@ class MadzipperTest extends TestCase
 
         $this->file
             ->shouldReceive('put')
-            ->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz', 'foo/bar/baz');
+            ->with(realpath('').DIRECTORY_SEPARATOR.'baz', 'foo/bar/baz');
 
         $this->file
             ->shouldReceive('put')
-            ->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz.log', 'foo/bar/baz.log');
+            ->with(realpath('').DIRECTORY_SEPARATOR.'baz.log', 'foo/bar/baz.log');
 
         $this->archive
             ->extractTo(getcwd(), ['baz'], Madzipper::WHITELIST);
@@ -280,7 +280,7 @@ class MadzipperTest extends TestCase
 
         $this->file
             ->shouldReceive('put')
-            ->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz', 'foo/bar/baz');
+            ->with(realpath('').DIRECTORY_SEPARATOR.'baz', 'foo/bar/baz');
 
         $this->archive
             ->extractTo(getcwd(), ['baz'], Madzipper::WHITELIST | Madzipper::EXACT_MATCH);
@@ -304,8 +304,8 @@ class MadzipperTest extends TestCase
             ->add('baz')
             ->add('baz.log');
 
-        $subDirectoryPath = realpath(null) . DIRECTORY_SEPARATOR . 'subDirectory';
-        $subDirectoryFilePath = $subDirectoryPath . '/bazInSubDirectory';
+        $subDirectoryPath = realpath('').DIRECTORY_SEPARATOR.'subDirectory';
+        $subDirectoryFilePath = $subDirectoryPath.'/bazInSubDirectory';
         $this->file->shouldReceive('put')
             ->with($subDirectoryFilePath, 'foo/bar/subDirectory/bazInSubDirectory');
 
@@ -329,8 +329,8 @@ class MadzipperTest extends TestCase
 
         $this->archive->add('foo')->add('bar');
 
-        $this->file->shouldReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'foo', 'foo');
-        $this->file->shouldNotReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'bar', 'bar');
+        $this->file->shouldReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'foo', 'foo');
+        $this->file->shouldNotReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'bar', 'bar');
 
         $this->archive->extractTo(getcwd(), ['bar'], Madzipper::BLACKLIST);
     }
@@ -355,11 +355,11 @@ class MadzipperTest extends TestCase
             ->add('fileInSubDir')
             ->add('fileBlackListedInSubDir');
 
-        $this->file->shouldReceive('put')->with($currentDir . DIRECTORY_SEPARATOR . 'fileInSubDir', 'foo/bar/fileInSubDir');
-        $this->file->shouldReceive('put')->with($currentDir . DIRECTORY_SEPARATOR . 'sub/fileInSubSubDir', 'foo/bar/sub/fileInSubSubDir');
+        $this->file->shouldReceive('put')->with($currentDir.DIRECTORY_SEPARATOR.'fileInSubDir', 'foo/bar/fileInSubDir');
+        $this->file->shouldReceive('put')->with($currentDir.DIRECTORY_SEPARATOR.'sub/fileInSubSubDir', 'foo/bar/sub/fileInSubSubDir');
 
-        $this->file->shouldNotReceive('put')->with($currentDir . DIRECTORY_SEPARATOR . 'fileBlackListedInSubDir', 'fileBlackListedInSubDir');
-        $this->file->shouldNotReceive('put')->with($currentDir . DIRECTORY_SEPARATOR . 'rootLevelFile', 'rootLevelFile');
+        $this->file->shouldNotReceive('put')->with($currentDir.DIRECTORY_SEPARATOR.'fileBlackListedInSubDir', 'fileBlackListedInSubDir');
+        $this->file->shouldNotReceive('put')->with($currentDir.DIRECTORY_SEPARATOR.'rootLevelFile', 'rootLevelFile');
 
         $this->archive->extractTo($currentDir, ['fileBlackListedInSubDir'], Madzipper::BLACKLIST);
     }
@@ -381,7 +381,7 @@ class MadzipperTest extends TestCase
             ->add('baz')
             ->add('baz.log');
 
-        $this->file->shouldReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz.log', 'foo/bar/baz.log');
+        $this->file->shouldReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'baz.log', 'foo/bar/baz.log');
 
         $this->archive->extractTo(getcwd(), ['baz'], Madzipper::BLACKLIST | Madzipper::EXACT_MATCH);
     }
@@ -410,11 +410,11 @@ class MadzipperTest extends TestCase
             ->add('baz')
             ->add('baz.log');
 
-        $this->file->shouldReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz.log', 'foo/bar/baz.log');
-        $this->file->shouldReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'subFolder/subFolderFileToExtract.log', 'foo/bar/subFolder/subFolderFileToExtract.log');
-        $this->file->shouldNotReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'rootLevelMustBeIgnored.log', 'rootLevelMustBeIgnored.log');
-        $this->file->shouldNotReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'baz', 'foo/bar/baz');
-        $this->file->shouldNotReceive('put')->with(realpath(null) . DIRECTORY_SEPARATOR . 'subFolder/subFolderFileToIgnore', 'foo/bar/subFolder/subFolderFileToIgnore');
+        $this->file->shouldReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'baz.log', 'foo/bar/baz.log');
+        $this->file->shouldReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'subFolder/subFolderFileToExtract.log', 'foo/bar/subFolder/subFolderFileToExtract.log');
+        $this->file->shouldNotReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'rootLevelMustBeIgnored.log', 'rootLevelMustBeIgnored.log');
+        $this->file->shouldNotReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'baz', 'foo/bar/baz');
+        $this->file->shouldNotReceive('put')->with(realpath('').DIRECTORY_SEPARATOR.'subFolder/subFolderFileToIgnore', 'foo/bar/subFolder/subFolderFileToIgnore');
 
         $this->archive->extractMatchingRegex(getcwd(), '/\.log$/i');
     }
