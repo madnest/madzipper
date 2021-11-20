@@ -8,24 +8,24 @@ use Illuminate\Support\Str;
 use Madnest\Madzipper\Repositories\RepositoryInterface;
 
 /**
- * This Madzipper class is a wrapper around the ZipArchive methods with some handy functions
+ * This Madzipper class is a wrapper around the ZipArchive methods with some handy functions.
  *
  * Class Madzipper
  */
 class Madzipper
 {
     /**
-     * Constant for extracting
+     * Constant for extracting.
      */
     const WHITELIST = 1;
 
     /**
-     * Constant for extracting
+     * Constant for extracting.
      */
     const BLACKLIST = 2;
 
     /**
-     * Constant for matching only strictly equal file names
+     * Constant for matching only strictly equal file names.
      */
     const EXACT_MATCH = 4;
 
@@ -50,7 +50,7 @@ class Madzipper
     private $filePath;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Filesystem $fs
      */
@@ -60,7 +60,7 @@ class Madzipper
     }
 
     /**
-     * Destructor
+     * Destructor.
      */
     public function __destruct()
     {
@@ -71,7 +71,7 @@ class Madzipper
 
     /**
      * Create a new zip Archive if the file does not exists
-     * opens a zip archive if the file exists
+     * opens a zip archive if the file exists.
      *
      * @param $pathToFile string The file to open
      * @param RepositoryInterface|string $type The type of the archive, defaults to zip, possible are zip, phar
@@ -82,13 +82,13 @@ class Madzipper
      *
      * @return $this Madzipper instance
      */
-    public function make($pathToFile, $type = 'zip')
+    public function make($pathToFile, $type = 'zip'): self
     {
         $new = $this->createArchiveFile($pathToFile);
 
         $objectOrName = $type;
         if (is_string($type)) {
-            $objectOrName = 'Madnest\Madzipper\Repositories\\' . ucwords($type) . 'Repository';
+            $objectOrName = 'Madnest\Madzipper\Repositories\\'.ucwords($type).'Repository';
         }
 
         if (! is_subclass_of($objectOrName, 'Madnest\Madzipper\Repositories\RepositoryInterface')) {
@@ -111,15 +111,13 @@ class Madzipper
     }
 
     /**
-     * Create a new zip archive or open an existing one
+     * Create a new zip archive or open an existing one.
      *
-     * @param $pathToFile
-     *
+     * @param string $pathToFile
      * @throws \Exception
-     *
-     * @return $this
+     * @return self
      */
-    public function zip($pathToFile)
+    public function zip(string $pathToFile): self
     {
         $this->make($pathToFile);
 
@@ -127,15 +125,13 @@ class Madzipper
     }
 
     /**
-     * Create a new phar file or open one
+     * Create a new phar file or open one.
      *
-     * @param $pathToFile
-     *
+     * @param string $pathToFile
      * @throws \Exception
-     *
-     * @return $this
+     * @return self
      */
-    public function phar($pathToFile)
+    public function phar(string $pathToFile): self
     {
         $this->make($pathToFile, 'phar');
 
@@ -143,15 +139,13 @@ class Madzipper
     }
 
     /**
-     * Create a new rar file or open one
+     * Create a new rar file or open one.
      *
-     * @param $pathToFile
-     *
+     * @param string $pathToFile
      * @throws \Exception
-     *
-     * @return $this
+     * @return self
      */
-    public function rar($pathToFile)
+    public function rar(string $pathToFile): self
     {
         $this->make($pathToFile, 'rar');
 
@@ -161,15 +155,15 @@ class Madzipper
     /**
      * Extracts the opened zip archive to the specified location <br/>
      * you can provide an array of files and folders and define if they should be a white list
-     * or a black list to extract. By default this method compares file names using "string starts with" logic
+     * or a black list to extract. By default this method compares file names using "string starts with" logic.
      *
      * @param $path string The path to extract to
      * @param array $files       An array of files
      * @param int   $methodFlags The Method the files should be treated
-     *
      * @throws \Exception
+     * @return void
      */
-    public function extractTo($path, array $files = [], $methodFlags = self::BLACKLIST)
+    public function extractTo($path, array $files = [], $methodFlags = self::BLACKLIST): void
     {
         if (! $this->file->exists($path) && ! $this->file->makeDirectory($path, 0755, true)) {
             throw new \RuntimeException('Failed to create folder');
@@ -226,7 +220,7 @@ class Madzipper
     }
 
     /**
-     * Gets the content of a single file if available
+     * Gets the content of a single file if available.
      *
      * @param $filePath string The full path (including all folders) of the file in the zip
      *
@@ -275,7 +269,7 @@ class Madzipper
     }
 
     /**
-     * Add an empty directory
+     * Add an empty directory.
      *
      * @param $dirName
      *
@@ -289,7 +283,7 @@ class Madzipper
     }
 
     /**
-     * Add a file to the zip using its contents
+     * Add a file to the zip using its contents.
      *
      * @param $filename string The name of the file to create
      * @param $content string The file contents
@@ -314,7 +308,7 @@ class Madzipper
     }
 
     /**
-     * Remove a file or array of files and folders from the zip archive
+     * Remove a file or array of files and folders from the zip archive.
      *
      * @param $fileToRemove array|string The path/array to the files in the zip
      *
@@ -347,7 +341,7 @@ class Madzipper
     }
 
     /**
-     * Sets the password to be used for decompressing
+     * Sets the password to be used for decompressing.
      *
      * @param $password
      *
@@ -359,7 +353,7 @@ class Madzipper
     }
 
     /**
-     * Closes the zip file and frees all handles
+     * Closes the zip file and frees all handles.
      */
     public function close()
     {
@@ -397,7 +391,7 @@ class Madzipper
     }
 
     /**
-     * Deletes the archive file
+     * Deletes the archive file.
      */
     public function delete()
     {
@@ -410,7 +404,7 @@ class Madzipper
     }
 
     /**
-     * Get the type of the Archive
+     * Get the type of the Archive.
      *
      * @return string
      */
@@ -420,7 +414,7 @@ class Madzipper
     }
 
     /**
-     * Get the current internal folder pointer
+     * Get the current internal folder pointer.
      *
      * @return string
      */
@@ -430,7 +424,7 @@ class Madzipper
     }
 
     /**
-     * Checks if a file is present in the archive
+     * Checks if a file is present in the archive.
      *
      * @param $fileInArchive
      *
@@ -458,17 +452,17 @@ class Madzipper
     }
 
     /**
-     * Gets the path to the internal folder
+     * Gets the path to the internal folder.
      *
      * @return string
      */
     public function getInternalPath()
     {
-        return empty($this->currentFolder) ? '' : $this->currentFolder . '/';
+        return empty($this->currentFolder) ? '' : $this->currentFolder.'/';
     }
 
     /**
-     * List all files that are within the archive
+     * List all files that are within the archive.
      *
      * @param string|null $regexFilter regular expression to filter returned files/folders. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
      *
@@ -511,7 +505,7 @@ class Madzipper
 
         $lastChar = mb_substr($this->currentFolder, -1);
         if ($lastChar !== '/' || $lastChar !== '\\') {
-            return $this->currentFolder . '/';
+            return $this->currentFolder.'/';
         }
 
         return $this->currentFolder;
@@ -549,20 +543,20 @@ class Madzipper
     {
         // First go over the files in this directory and add them to the repository.
         foreach ($this->file->files($pathToDir) as $file) {
-            $this->addFile($pathToDir . '/' . basename($file));
+            $this->addFile($pathToDir.'/'.basename($file));
         }
 
         // Now let's visit the subdirectories and add them, too.
         foreach ($this->file->directories($pathToDir) as $dir) {
             $old_folder = $this->currentFolder;
-            $this->currentFolder = empty($this->currentFolder) ? basename($dir) : $this->currentFolder . '/' . basename($dir);
-            $this->addDir($pathToDir . '/' . basename($dir));
+            $this->currentFolder = empty($this->currentFolder) ? basename($dir) : $this->currentFolder.'/'.basename($dir);
+            $this->addDir($pathToDir.'/'.basename($dir));
             $this->currentFolder = $old_folder;
         }
     }
 
     /**
-     * Add the file to the zip
+     * Add the file to the zip.
      *
      * @param string $pathToAdd
      * @param string $fileName
@@ -572,35 +566,35 @@ class Madzipper
         if (! $fileName) {
             $info = pathinfo($pathToAdd);
             $fileName = isset($info['extension']) ?
-                $info['filename'] . '.' . $info['extension'] : $info['filename'];
+                $info['filename'].'.'.$info['extension'] : $info['filename'];
         }
 
-        $this->repository->addFile($pathToAdd, $this->getInternalPath() . $fileName);
+        $this->repository->addFile($pathToAdd, $this->getInternalPath().$fileName);
     }
 
     /**
-     * Add the file to the zip from content
+     * Add the file to the zip from content.
      *
      * @param $filename
      * @param $content
      */
     private function addFromString($filename, $content)
     {
-        $this->repository->addFromString($this->getInternalPath() . $filename, $content);
+        $this->repository->addFromString($this->getInternalPath().$filename, $content);
     }
 
     private function extractFilesInternal($path, callable $matchingMethod)
     {
         $self = $this;
-        $this->repository->each(function ($fileName) use ($path, $matchingMethod, $self) {
+        $this->repository->each(function ($file) use ($path, $matchingMethod, $self) {
             $currentPath = $self->getCurrentFolderWithTrailingSlash();
-            if (! empty($currentPath) && ! Str::startsWith($fileName, $currentPath)) {
+            if (! empty($currentPath) && ! Str::startsWith($file, $currentPath)) {
                 return;
             }
 
-            $filename = str_replace($self->getInternalPath(), '', $fileName);
+            $filename = str_replace($self->getInternalPath(), '', $file);
             if ($matchingMethod($filename)) {
-                $self->extractOneFileInternal($fileName, $path);
+                $self->extractOneFileInternal($file, $path);
             }
         });
     }
@@ -611,22 +605,22 @@ class Madzipper
      *
      * @throws \RuntimeException
      */
-    private function extractOneFileInternal($fileName, $path)
+    private function extractOneFileInternal($file, $path)
     {
-        $tmpPath = str_replace($this->getInternalPath(), '', $fileName);
+        $tmpPath = str_replace($this->getInternalPath(), '', $file);
 
         //Prevent Zip traversal attacks
-        if (strpos($fileName, '../') !== false || strpos($fileName, '..\\') !== false) {
+        if (strpos($file, '../') !== false || strpos($file, '..\\') !== false) {
             throw new \RuntimeException('Special characters found within filenames');
         }
         // We need to create the directory first in case it doesn't exist
-        $dir = pathinfo($path . DIRECTORY_SEPARATOR . $tmpPath, PATHINFO_DIRNAME);
+        $dir = pathinfo($path.DIRECTORY_SEPARATOR.$tmpPath, PATHINFO_DIRNAME);
         if (! $this->file->exists($dir) && ! $this->file->makeDirectory($dir, 0755, true, true)) {
             throw new \RuntimeException('Failed to create folders');
         }
 
-        $toPath = $path . DIRECTORY_SEPARATOR . $tmpPath;
-        $fileStream = $this->getRepository()->getFileStream($fileName);
+        $toPath = $path.DIRECTORY_SEPARATOR.$tmpPath;
+        $fileStream = $this->getRepository()->getFileStream($file);
         $this->getFileHandler()->put($toPath, $fileStream);
     }
 }
