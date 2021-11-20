@@ -3,14 +3,14 @@
 namespace Madnest\Madzipper\Repositories;
 
 /**
- * RepositoryInterface that needs to be implemented by every Repository
+ * RepositoryInterface that needs to be implemented by every Repository.
  *
  * Class RepositoryInterface
  */
 interface RepositoryInterface
 {
     /**
-     * Construct with a given path
+     * Construct with a given path.
      *
      * @param $filePath
      * @param bool $new
@@ -19,7 +19,7 @@ interface RepositoryInterface
     public function __construct($filePath, $new = false, $archiveImplementation = null);
 
     /**
-     * Add a file to the opened Archive
+     * Add a file to the opened Archive.
      *
      * @param $pathToFile
      * @param $pathInArchive
@@ -27,7 +27,7 @@ interface RepositoryInterface
     public function addFile($pathToFile, $pathInArchive);
 
     /**
-     * Add a file to the opened Archive using its contents
+     * Add a file to the opened Archive using its contents.
      *
      * @param $name
      * @param $content
@@ -35,21 +35,21 @@ interface RepositoryInterface
     public function addFromString($name, $content);
 
     /**
-     * Add an empty directory
+     * Add an empty directory.
      *
      * @param $dirName
      */
     public function addEmptyDir($dirName);
 
     /**
-     * Remove a file permanently from the Archive
+     * Remove a file permanently from the Archive.
      *
      * @param $pathInArchive
      */
     public function removeFile($pathInArchive);
 
     /**
-     * Get the content of a file
+     * Get the content of a file.
      *
      * @param $pathInArchive
      *
@@ -58,7 +58,7 @@ interface RepositoryInterface
     public function getFileContent($pathInArchive);
 
     /**
-     * Get the stream of a file
+     * Get the stream of a file.
      *
      * @param $pathInArchive
      *
@@ -68,14 +68,14 @@ interface RepositoryInterface
 
     /**
      * Will loop over every item in the archive and will execute the callback on them
-     * Will provide the filename for every item
+     * Will provide the filename for every item.
      *
      * @param $callback
      */
     public function each($callback);
 
     /**
-     * Checks whether the file is in the archive
+     * Checks whether the file is in the archive.
      *
      * @param $fileInArchive
      *
@@ -84,7 +84,7 @@ interface RepositoryInterface
     public function fileExists($fileInArchive);
 
     /**
-     * Sets the password to be used for decompressing
+     * Sets the password to be used for decompressing.
      *
      * @param $password
      *
@@ -93,14 +93,14 @@ interface RepositoryInterface
     public function usePassword($password);
 
     /**
-     * Returns the status of the archive as a string
+     * Returns the status of the archive as a string.
      *
      * @return string
      */
     public function getStatus();
 
     /**
-     * Closes the archive and saves it
+     * Closes the archive and saves it.
      */
     public function close();
 }

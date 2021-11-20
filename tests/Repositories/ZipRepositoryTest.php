@@ -53,7 +53,7 @@ class ZipRepositoryTest extends TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/Error: Failed to open (.*)ZipRepositoryTest.php! Error: ZipArchive::ER_NOZIP - Not a zip archive./');
-        new ZipRepository(__DIR__ . DIRECTORY_SEPARATOR . 'ZipRepositoryTest.php', false);
+        new ZipRepository(__DIR__.DIRECTORY_SEPARATOR.'ZipRepositoryTest.php', false);
     }
 
     /**
