@@ -14,13 +14,13 @@
     "require": {
         "php": "^7.3|^8.0",
         "ext-zip": "*",
-        "illuminate/support": "^7.0|^8.0|^9.0",
-        "illuminate/filesystem": "^7.0|^8.0|^9.0"
+        "illuminate/support": "^9.0",
+        "illuminate/filesystem": "^9.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "orchestra/testbench": "^6.8",
+        "nunomaduro/collision": "^6.0",
+        "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
