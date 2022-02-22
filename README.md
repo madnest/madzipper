@@ -11,14 +11,23 @@ This is a simple Wrapper around the ZipArchive methods with some handy functions
 
 ## Installation
 
-1. `"madnest/madzipper": "1.0.x"` can be installed by running `composer require madnest/madzipper`
+1. `"madnest/madzipper": can be installed by running `composer require madnest/madzipper`
 
-2. Optionally when using with Laravel 8, 7 or 6, go to `app/config/app.php`
+
+2. Optionally when using with Laravel, go to `app/config/app.php`
 
 -   add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
 -   add to aliases `'Madzipper' => Madnest\Madzipper\Madzipper::class`
 
 You can now access Madzipper with the `Madzipper` alias.
+
+## Versions
+
+| Package  | Laravel            | PHP       |
+|:---------|:-------------------|:----------|
+| **v1.3** | `9.*`              | `^8.0`    |
+| **v1.2** | `7.* / 8.*`        | `^8.0`    |
+| **v1.1** | `7.* / 8.*`        | `>=7.3`   |
 
 ## Simple Laravel example by using Madzipper facade
 
