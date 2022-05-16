@@ -19,6 +19,20 @@ interface RepositoryInterface
     public function __construct($filePath, $new = false, $archiveImplementation = null);
 
     /**
+     * Check if the archive is open.
+     *
+     * @return bool
+     */
+    public function isOpen(): bool;
+
+    /**
+     * Check if the archive is closed.
+     *
+     * @return bool
+     */
+    public function isClosed(): bool;
+
+    /**
      * Add a file to the opened Archive.
      *
      * @param $pathToFile
