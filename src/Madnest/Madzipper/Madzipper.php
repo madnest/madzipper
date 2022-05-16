@@ -64,7 +64,7 @@ class Madzipper
      */
     public function __destruct()
     {
-        if (is_object($this->repository)) {
+        if (is_object($this->repository) && $this->repository->isOpen()) {
             $this->repository->close();
         }
     }
@@ -510,8 +510,6 @@ class Madzipper
 
         return $this->currentFolder;
     }
-
-    //---------------------PRIVATE FUNCTIONS-------------
 
     /**
      * @param $pathToZip
