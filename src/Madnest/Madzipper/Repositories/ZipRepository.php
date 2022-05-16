@@ -9,12 +9,14 @@ class ZipRepository implements RepositoryInterface
 {
     private $archive;
 
+    public bool $open = false;
+
     /**
      * Construct with a given path.
      *
      * @param $filePath
      * @param bool $create
-     * @param $archive
+     * @param ZipArchive $archive
      *
      * @throws \Exception
      *
@@ -22,16 +24,53 @@ class ZipRepository implements RepositoryInterface
      */
     public function __construct($filePath, $create = false, $archive = null)
     {
-        //Check if ZipArchive is available
+        // Check if ZipArchive is available
         if (! class_exists('ZipArchive')) {
             throw new Exception('Error: Your PHP version is not compiled with zip support');
         }
+
         $this->archive = $archive ? $archive : new ZipArchive();
 
+        $this->open($filePath, $create);
+    }
+
+    /**
+     * Open the archive.
+     *
+     * @param mixed $filePath
+     * @param bool $create
+     * @return void
+     * @throws Exception
+     */
+    protected function open($filePath, $create = false): void
+    {
         $res = $this->archive->open($filePath, ($create ? ZipArchive::CREATE : null));
+
         if ($res !== true) {
             throw new Exception("Error: Failed to open $filePath! Error: ".$this->getErrorMessage($res));
         }
+
+        $this->open = true;
+    }
+
+    /**
+     * Check if the archive is open.
+     *
+     * @return bool
+     */
+    public function isOpen(): bool
+    {
+        return $this->open ? true : false;
+    }
+
+    /**
+     * Check if the archive is closed.
+     *
+     * @return bool
+     */
+    public function isClosed(): bool
+    {
+        return ! $this->open ? true : false;
     }
 
     /**
@@ -155,13 +194,23 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Closes the archive and saves it.
+     *
+     * @return bool
      */
-    public function close()
+    public function close(): bool
     {
-        @$this->archive->close();
+        $this->open = false;
+
+        return $this->archive->close();
     }
 
-    private function getErrorMessage($resultCode)
+    /**
+     * Get error message.
+     *
+     * @param mixed $resultCode
+     * @return string
+     */
+    private function getErrorMessage($resultCode): string
     {
         switch ($resultCode) {
             case ZipArchive::ER_EXISTS:
