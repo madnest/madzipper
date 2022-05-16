@@ -20,6 +20,26 @@ class ArrayArchive implements RepositoryInterface
     }
 
     /**
+     * Check if the archive is open.
+     *
+     * @return bool
+     */
+    public function isOpen(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Check if the archive is closed.
+     *
+     * @return bool
+     */
+    public function isClosed(): bool
+    {
+        return false;
+    }
+
+    /**
      * Add a file to the opened Archive.
      *
      * @param $pathToFile
