@@ -65,7 +65,11 @@ class Madzipper
     public function __destruct()
     {
         if (is_object($this->repository) && $this->repository->isOpen()) {
-            $this->repository->close();
+            try {
+                $this->repository->close();
+            } catch (\ValueError $er) {
+                // seemingly the repository was still unitialized (or already closed?)
+            }
         }
     }
 
