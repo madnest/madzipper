@@ -38,13 +38,18 @@ class ZipRepository implements RepositoryInterface
      * Open the archive.
      *
      * @param mixed $filePath
-     * @param bool $create
+     * @param bool|int $flags Any constant from ZipArchive (e.g `ZipArchive::CREATE` or `ZipArchive::OVERWRITE`)
      * @return void
      * @throws Exception
      */
-    protected function open($filePath, $create = false): void
+    protected function open($filePath, $flags = null): void
     {
-        $res = $this->archive->open($filePath, ($create ? ZipArchive::CREATE : null));
+        if ($flags === true) {
+            // backward compatibility for pre-PHP8
+            $flags = ZipArchive::CREATE;
+        }
+
+        $res = $this->archive->open($filePath, $flags);
 
         if ($res !== true) {
             throw new Exception("Error: Failed to open $filePath! Error: ".$this->getErrorMessage($res));
