@@ -35,8 +35,12 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit --colors=always",
-    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    "post-autoload-dump": "@composer run prepare",
+    "clear": "@php vendor/bin/testbench package:purge --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+    "format": "vendor/bin/pint"
   },
   "config": {
     "sort-packages": true
