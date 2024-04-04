@@ -36,7 +36,7 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Add a file to the opened Archive.
      */
-    public function addFile($pathToFile, $pathInArchive)
+    public function addFile($pathToFile, $pathInArchive): void
     {
         $this->entries[$pathInArchive] = $pathInArchive;
     }
@@ -44,7 +44,7 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Add a file to the opened Archive using its contents.
      */
-    public function addFromString($name, $content)
+    public function addFromString($name, $content): void
     {
         $this->entries[$name] = $name;
     }
@@ -52,18 +52,15 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Remove a file permanently from the Archive.
      */
-    public function removeFile($pathInArchive)
+    public function removeFile($pathInArchive): void
     {
         unset($this->entries[$pathInArchive]);
     }
 
     /**
      * Get the content of a file.
-     *
-     *
-     * @return string
      */
-    public function getFileContent($pathInArchive)
+    public function getFileContent($pathInArchive): string
     {
         return $this->entries[$pathInArchive];
     }
@@ -83,7 +80,7 @@ class ArrayArchive implements RepositoryInterface
      * Will loop over every item in the archive and will execute the callback on them
      * Will provide the filename for every item.
      */
-    public function each($callback)
+    public function each($callback): void
     {
         foreach ($this->entries as $entry) {
             call_user_func_array($callback, [
@@ -94,21 +91,16 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Checks whether the file is in the archive.
-     *
-     *
-     * @return bool
      */
-    public function fileExists($fileInArchive)
+    public function fileExists($fileInArchive): bool
     {
         return array_key_exists($fileInArchive, $this->entries);
     }
 
     /**
      * Returns the status of the archive as a string.
-     *
-     * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return 'OK';
     }
@@ -116,14 +108,14 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Closes the archive and saves it.
      */
-    public function close()
+    public function close(): void
     {
     }
 
     /**
      * Add an empty directory.
      */
-    public function addEmptyDir($dirName)
+    public function addEmptyDir($dirName): void
     {
         // CODE...
     }
@@ -131,7 +123,7 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Sets the password to be used for decompressing.
      */
-    public function usePassword($password)
+    public function usePassword($password): void
     {
         // CODE...
     }
