@@ -18,6 +18,7 @@
     "illuminate/filesystem": "^11.0"
   },
   "require-dev": {
+    "laravel/pint": "^1.15",
     "mockery/mockery": "^1.4.4",
     "nunomaduro/collision": "^8.0",
     "orchestra/testbench": "^9.0",
