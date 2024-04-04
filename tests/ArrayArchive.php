@@ -11,9 +11,7 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Construct with a given path.
      *
-     * @param $filePath
-     * @param bool $new
-     * @param $archiveImplementation
+     * @param  bool  $new
      */
     public function __construct($filePath, $new = false, $archiveImplementation = null)
     {
@@ -21,8 +19,6 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Check if the archive is open.
-     *
-     * @return bool
      */
     public function isOpen(): bool
     {
@@ -31,8 +27,6 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Check if the archive is closed.
-     *
-     * @return bool
      */
     public function isClosed(): bool
     {
@@ -41,9 +35,6 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Add a file to the opened Archive.
-     *
-     * @param $pathToFile
-     * @param $pathInArchive
      */
     public function addFile($pathToFile, $pathInArchive)
     {
@@ -52,9 +43,6 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Add a file to the opened Archive using its contents.
-     *
-     * @param $name
-     * @param $content
      */
     public function addFromString($name, $content)
     {
@@ -63,8 +51,6 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Remove a file permanently from the Archive.
-     *
-     * @param $pathInArchive
      */
     public function removeFile($pathInArchive)
     {
@@ -74,7 +60,6 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Get the content of a file.
      *
-     * @param $pathInArchive
      *
      * @return string
      */
@@ -86,7 +71,6 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Get the stream of a file.
      *
-     * @param $pathInArchive
      *
      * @return mixed
      */
@@ -98,8 +82,6 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Will loop over every item in the archive and will execute the callback on them
      * Will provide the filename for every item.
-     *
-     * @param $callback
      */
     public function each($callback)
     {
@@ -113,7 +95,6 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Checks whether the file is in the archive.
      *
-     * @param $fileInArchive
      *
      * @return bool
      */
@@ -141,8 +122,6 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Add an empty directory.
-     *
-     * @param $dirName
      */
     public function addEmptyDir($dirName)
     {
@@ -151,8 +130,6 @@ class ArrayArchive implements RepositoryInterface
 
     /**
      * Sets the password to be used for decompressing.
-     *
-     * @param $password
      */
     public function usePassword($password)
     {
