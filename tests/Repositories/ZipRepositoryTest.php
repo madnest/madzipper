@@ -58,6 +58,7 @@ class ZipRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_can_add_files()
@@ -73,6 +74,7 @@ class ZipRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_can_remove_files()
@@ -122,6 +124,7 @@ class ZipRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_can_close()

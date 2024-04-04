@@ -51,10 +51,8 @@ class Madzipper
 
     /**
      * Constructor.
-     *
-     * @param Filesystem $fs
      */
-    public function __construct(Filesystem $fs = null)
+    public function __construct(?Filesystem $fs = null)
     {
         $this->file = $fs ? $fs : new Filesystem();
     }
@@ -77,14 +75,13 @@ class Madzipper
      * Create a new zip Archive if the file does not exists
      * opens a zip archive if the file exists.
      *
-     * @param $pathToFile string The file to open
-     * @param RepositoryInterface|string $type The type of the archive, defaults to zip, possible are zip, phar
+     * @param  $pathToFile  string The file to open
+     * @param  RepositoryInterface|string  $type  The type of the archive, defaults to zip, possible are zip, phar
+     * @return $this Madzipper instance
      *
      * @throws \RuntimeException
      * @throws \Exception
      * @throws \InvalidArgumentException
-     *
-     * @return $this Madzipper instance
      */
     public function make($pathToFile, $type = 'zip'): self
     {
@@ -117,9 +114,7 @@ class Madzipper
     /**
      * Create a new zip archive or open an existing one.
      *
-     * @param string $pathToFile
      * @throws \Exception
-     * @return self
      */
     public function zip(string $pathToFile): self
     {
@@ -131,9 +126,7 @@ class Madzipper
     /**
      * Create a new phar file or open one.
      *
-     * @param string $pathToFile
      * @throws \Exception
-     * @return self
      */
     public function phar(string $pathToFile): self
     {
@@ -145,9 +138,7 @@ class Madzipper
     /**
      * Create a new rar file or open one.
      *
-     * @param string $pathToFile
      * @throws \Exception
-     * @return self
      */
     public function rar(string $pathToFile): self
     {
@@ -161,11 +152,11 @@ class Madzipper
      * you can provide an array of files and folders and define if they should be a white list
      * or a black list to extract. By default this method compares file names using "string starts with" logic.
      *
-     * @param $path string The path to extract to
-     * @param array $files       An array of files
-     * @param int   $methodFlags The Method the files should be treated
+     * @param  $path  string The path to extract to
+     * @param  array  $files  An array of files
+     * @param  int  $methodFlags  The Method the files should be treated
+     *
      * @throws \Exception
-     * @return void
      */
     public function extractTo($path, array $files = [], $methodFlags = self::BLACKLIST): void
     {
@@ -196,8 +187,8 @@ class Madzipper
     /**
      * Extracts matching files/folders from the opened zip archive to the specified location.
      *
-     * @param string $extractToPath The path to extract to
-     * @param string $regex         regular expression used to match files. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
+     * @param  string  $extractToPath  The path to extract to
+     * @param  string  $regex  regular expression used to match files. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
      *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
@@ -226,11 +217,10 @@ class Madzipper
     /**
      * Gets the content of a single file if available.
      *
-     * @param $filePath string The full path (including all folders) of the file in the zip
+     * @param  $filePath  string The full path (including all folders) of the file in the zip
+     * @return mixed returns the content or throws an exception
      *
      * @throws \Exception
-     *
-     * @return mixed returns the content or throws an exception
      */
     public function getFileContent($filePath)
     {
@@ -244,9 +234,8 @@ class Madzipper
     /**
      * Add one or multiple files to the zip.
      *
-     * @param $pathToAdd array|string An array or string of files and folders to add
-     * @param null|mixed $fileName
-     *
+     * @param  $pathToAdd  array|string An array or string of files and folders to add
+     * @param  null|mixed  $fileName
      * @return $this Madzipper instance
      */
     public function add($pathToAdd, $fileName = null)
@@ -275,7 +264,6 @@ class Madzipper
     /**
      * Add an empty directory.
      *
-     * @param $dirName
      *
      * @return Madzipper
      */
@@ -289,9 +277,8 @@ class Madzipper
     /**
      * Add a file to the zip using its contents.
      *
-     * @param $filename string The name of the file to create
-     * @param $content string The file contents
-     *
+     * @param  $filename  string The name of the file to create
+     * @param  $content  string The file contents
      * @return $this Madzipper instance
      */
     public function addString($filename, $content)
@@ -314,8 +301,7 @@ class Madzipper
     /**
      * Remove a file or array of files and folders from the zip archive.
      *
-     * @param $fileToRemove array|string The path/array to the files in the zip
-     *
+     * @param  $fileToRemove  array|string The path/array to the files in the zip
      * @return $this Madzipper instance
      */
     public function remove($fileToRemove)
@@ -347,7 +333,6 @@ class Madzipper
     /**
      * Sets the password to be used for decompressing.
      *
-     * @param $password
      *
      * @return bool
      */
@@ -361,7 +346,7 @@ class Madzipper
      */
     public function close()
     {
-        if (null !== $this->repository) {
+        if ($this->repository !== null) {
             $this->repository->close();
         }
         $this->filePath = '';
@@ -371,7 +356,6 @@ class Madzipper
      * Sets the internal folder to the given path.<br/>
      * Useful for extracting only a segment of a zip file.
      *
-     * @param $path
      *
      * @return $this
      */
@@ -399,7 +383,7 @@ class Madzipper
      */
     public function delete()
     {
-        if (null !== $this->repository) {
+        if ($this->repository !== null) {
             $this->repository->close();
         }
 
@@ -430,7 +414,6 @@ class Madzipper
     /**
      * Checks if a file is present in the archive.
      *
-     * @param $fileInArchive
      *
      * @return bool
      */
@@ -468,11 +451,10 @@ class Madzipper
     /**
      * List all files that are within the archive.
      *
-     * @param string|null $regexFilter regular expression to filter returned files/folders. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
+     * @param  string|null  $regexFilter  regular expression to filter returned files/folders. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
+     * @return array
      *
      * @throws \RuntimeException
-     *
-     * @return array
      */
     public function listFiles($regexFilter = null)
     {
@@ -516,11 +498,9 @@ class Madzipper
     }
 
     /**
-     * @param $pathToZip
+     * @return bool
      *
      * @throws \Exception
-     *
-     * @return bool
      */
     private function createArchiveFile($pathToZip)
     {
@@ -538,9 +518,6 @@ class Madzipper
         return false;
     }
 
-    /**
-     * @param $pathToDir
-     */
     private function addDir($pathToDir)
     {
         // First go over the files in this directory and add them to the repository.
@@ -560,8 +537,8 @@ class Madzipper
     /**
      * Add the file to the zip.
      *
-     * @param string $pathToAdd
-     * @param string $fileName
+     * @param  string  $pathToAdd
+     * @param  string  $fileName
      */
     private function addFile($pathToAdd, $fileName = null)
     {
@@ -576,9 +553,6 @@ class Madzipper
 
     /**
      * Add the file to the zip from content.
-     *
-     * @param $filename
-     * @param $content
      */
     private function addFromString($filename, $content)
     {
@@ -602,8 +576,7 @@ class Madzipper
     }
 
     /**
-     * @param $fileName
-     * @param $path
+     * @param  $fileName
      *
      * @throws \RuntimeException
      */

@@ -25,7 +25,7 @@ class MadzipperTest extends TestCase
     {
         $this->file = Mockery::mock(new Filesystem());
         $this->archive = new Madzipper($this->file);
-        $this->archive->make('foo', new ArrayArchive('foo', true));
+        $this->archive->make('foo', new \Madnest\Madzipper\Tests\ArrayArchive('foo', true));
 
         parent::setUp();
     }
@@ -36,14 +36,14 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function an_archive_can_be_made()
+    public function an_archive_can_be_made(): void
     {
-        $this->assertSame('Madnest\\Madzipper\\Tests\\ArrayArchive', $this->archive->getArchiveType());
+        $this->assertSame(\Madnest\Madzipper\Tests\ArrayArchive::class, $this->archive->getArchiveType());
         $this->assertSame('foo', $this->archive->getFilePath());
     }
 
     /** @test */
-    public function is_throws_an_exception_when_directory_could_not_be_created()
+    public function is_throws_an_exception_when_directory_could_not_be_created(): void
     {
         $path = getcwd().time();
 
@@ -60,7 +60,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function files_can_be_added_and_received()
+    public function files_can_be_added_and_received(): void
     {
         $this->file->shouldReceive('isFile')->with('foo.bar')
             ->times(1)->andReturn(true);
@@ -75,7 +75,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function files_can_be_added_and_received_as_array()
+    public function files_can_be_added_and_received_as_array(): void
     {
         $this->file->shouldReceive('isFile')->with('foo.bar')
             ->times(1)->andReturn(true);
@@ -93,7 +93,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function files_can_be_added_and_received_as_custom_filename_array()
+    public function files_can_be_added_and_received_as_custom_filename_array(): void
     {
         $this->file->shouldReceive('isFile')->with('foo.bar')
             ->times(1)->andReturn(true);
@@ -111,7 +111,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function files_can_be_added_and_received_with_sub_folder()
+    public function files_can_be_added_and_received_with_sub_folder(): void
     {
         /*
          * Add the local folder /path/to/fooDir as folder fooDir to the repository
@@ -140,7 +140,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function exception_is_thrown_when_accessing_content_that_does_not_exist()
+    public function exception_is_thrown_when_accessing_content_that_does_not_exist(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The file "baz" cannot be found');
@@ -149,7 +149,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function files_can_be_removed()
+    public function files_can_be_removed(): void
     {
         $this->file->shouldReceive('isFile')->with('foo')
             ->andReturn(true);
@@ -182,9 +182,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function it_extracts_whitelisted()
+    public function it_extracts_whitelisted(): void
     {
         $this->file
             ->shouldReceive('isFile')
@@ -213,7 +214,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function extracting_throws_exception_when_it_could_not_create_directory()
+    public function extracting_throws_exception_when_it_could_not_create_directory(): void
     {
         $path = getcwd().time();
 
@@ -240,9 +241,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function it_extracts_whitelisted_from_sub_directory()
+    public function it_extracts_whitelisted_from_sub_directory(): void
     {
         $this->file->shouldReceive('isFile')->andReturn(true);
         $this->file->shouldReceive('makeDirectory')->andReturn(true);
@@ -266,9 +268,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function it_extracts_whitelist_with_exact_matching()
+    public function it_extracts_whitelist_with_exact_matching(): void
     {
         $this->file->shouldReceive('isFile')->andReturn(true);
         $this->file->shouldReceive('makeDirectory')->andReturn(true);
@@ -288,9 +291,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function it_extracts_whitelist_with_exact_matching_from_sub_directory()
+    public function it_extracts_whitelist_with_exact_matching_from_sub_directory(): void
     {
         $this->file->shouldReceive('isFile')->andReturn(true);
         $this->file->shouldReceive('exists')->andReturn(false);
@@ -317,9 +321,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function when_it_extracts_it_ignores_black_listed_files()
+    public function when_it_extracts_it_ignores_black_listed_files(): void
     {
         $this->file->shouldReceive('isFile')->with('foo')->andReturn(true);
 
@@ -337,9 +342,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function when_it_extracts_it_ignores_black_listed_files_from_sub_directory()
+    public function when_it_extracts_it_ignores_black_listed_files_from_sub_directory(): void
     {
         $currentDir = getcwd();
 
@@ -366,9 +372,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function when_it_extracts_it_ignores_black_listed_files_from_sub_directory_with_exact_matching()
+    public function when_it_extracts_it_ignores_black_listed_files_from_sub_directory_with_exact_matching(): void
     {
         $this->file->shouldReceive('isFile')->with('baz')
             ->andReturn(true);
@@ -388,9 +395,10 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
-    public function is_extracts_matching_regex_from_sub_folder()
+    public function is_extracts_matching_regex_from_sub_folder(): void
     {
         $this->file->shouldReceive('isFile')->with('baz')->andReturn(true);
         $this->file->shouldReceive('isFile')->with('baz.log')->andReturn(true);
@@ -420,7 +428,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_when_extracting_matching_regex_when_regex_is_empty()
+    public function it_throws_an_exception_when_extracting_matching_regex_when_regex_is_empty(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing pass valid regex parameter');
@@ -428,7 +436,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function is_can_add_files_to_folders_and_to_home()
+    public function is_can_add_files_to_folders_and_to_home(): void
     {
         $this->archive->folder('foo/bar');
         $this->assertSame('foo/bar', $this->archive->getCurrentFolderPath());
@@ -456,7 +464,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function is_can_list_files()
+    public function is_can_list_files(): void
     {
         // testing empty file
         $this->file->shouldReceive('isFile')->with('foo.file')->andReturn(true);
@@ -492,7 +500,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function is_can_list_files_with_regex_filter()
+    public function is_can_list_files_with_regex_filter(): void
     {
         // add 2 files to root level in zip
         $this->file->shouldReceive('isFile')->with('foo.file')->andReturn(true);
@@ -519,7 +527,7 @@ class MadzipperTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_when_trying_to_list_files_with_invalid_regex_filter()
+    public function it_throws_an_exception_when_trying_to_list_files_with_invalid_regex_filter(): void
     {
         $this->file->shouldReceive('isFile')->with('foo.file')->andReturn(true);
         $this->archive->add('foo.file');

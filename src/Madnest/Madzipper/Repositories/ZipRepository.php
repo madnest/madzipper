@@ -14,13 +14,11 @@ class ZipRepository implements RepositoryInterface
     /**
      * Construct with a given path.
      *
-     * @param $filePath
-     * @param bool $create
-     * @param ZipArchive $archive
+     * @param  bool  $create
+     * @param  ZipArchive  $archive
+     * @return ZipRepository
      *
      * @throws \Exception
-     *
-     * @return ZipRepository
      */
     public function __construct($filePath, $create = false, $archive = null)
     {
@@ -37,9 +35,9 @@ class ZipRepository implements RepositoryInterface
     /**
      * Open the archive.
      *
-     * @param mixed $filePath
-     * @param bool $create
-     * @return void
+     * @param  mixed  $filePath
+     * @param  bool  $create
+     *
      * @throws Exception
      */
     protected function open($filePath, $create = false): void
@@ -55,8 +53,6 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Check if the archive is open.
-     *
-     * @return bool
      */
     public function isOpen(): bool
     {
@@ -65,8 +61,6 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Check if the archive is closed.
-     *
-     * @return bool
      */
     public function isClosed(): bool
     {
@@ -75,9 +69,6 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Add a file to the opened Archive.
-     *
-     * @param $pathToFile
-     * @param $pathInArchive
      */
     public function addFile($pathToFile, $pathInArchive)
     {
@@ -86,8 +77,6 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Add an empty directory.
-     *
-     * @param $dirName
      */
     public function addEmptyDir($dirName)
     {
@@ -96,9 +85,6 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Add a file to the opened Archive using its contents.
-     *
-     * @param $name
-     * @param $content
      */
     public function addFromString($name, $content)
     {
@@ -107,8 +93,6 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Remove a file permanently from the Archive.
-     *
-     * @param $pathInArchive
      */
     public function removeFile($pathInArchive)
     {
@@ -118,7 +102,6 @@ class ZipRepository implements RepositoryInterface
     /**
      * Get the content of a file.
      *
-     * @param $pathInArchive
      *
      * @return string
      */
@@ -130,7 +113,6 @@ class ZipRepository implements RepositoryInterface
     /**
      * Get the stream of a file.
      *
-     * @param $pathInArchive
      *
      * @return mixed
      */
@@ -142,8 +124,6 @@ class ZipRepository implements RepositoryInterface
     /**
      * Will loop over every item in the archive and will execute the callback on them
      * Will provide the filename for every item.
-     *
-     * @param $callback
      */
     public function each($callback)
     {
@@ -160,7 +140,6 @@ class ZipRepository implements RepositoryInterface
     /**
      * Checks whether the file is in the archive.
      *
-     * @param $fileInArchive
      *
      * @return bool
      */
@@ -173,7 +152,6 @@ class ZipRepository implements RepositoryInterface
      * Sets the password to be used for decompressing
      * function named usePassword for clarity.
      *
-     * @param $password
      *
      * @return bool
      */
@@ -194,8 +172,6 @@ class ZipRepository implements RepositoryInterface
 
     /**
      * Closes the archive and saves it.
-     *
-     * @return bool
      */
     public function close(): bool
     {
@@ -207,8 +183,7 @@ class ZipRepository implements RepositoryInterface
     /**
      * Get error message.
      *
-     * @param mixed $resultCode
-     * @return string
+     * @param  mixed  $resultCode
      */
     private function getErrorMessage($resultCode): string
     {
