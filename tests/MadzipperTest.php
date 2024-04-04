@@ -182,6 +182,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_extracts_whitelisted()
@@ -240,6 +241,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_extracts_whitelisted_from_sub_directory()
@@ -266,6 +268,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_extracts_whitelist_with_exact_matching()
@@ -288,6 +291,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_extracts_whitelist_with_exact_matching_from_sub_directory()
@@ -317,6 +321,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function when_it_extracts_it_ignores_black_listed_files()
@@ -337,6 +342,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function when_it_extracts_it_ignores_black_listed_files_from_sub_directory()
@@ -366,6 +372,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function when_it_extracts_it_ignores_black_listed_files_from_sub_directory_with_exact_matching()
@@ -388,6 +395,7 @@ class MadzipperTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function is_extracts_matching_regex_from_sub_folder()
