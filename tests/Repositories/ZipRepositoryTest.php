@@ -16,7 +16,7 @@ class ZipRepositoryTest extends TestCase
     public $zip;
 
     /**
-     * @var \Mockery\Mock
+     * @var Mockery\Mock
      */
     public $mock;
 
