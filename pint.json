@@ -1,0 +1,6 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "explicit_string_variable": true
+  }
+}
