@@ -220,4 +220,4 @@ If you need other functions or got errors, please leave an issue on github.
 
 ## Credits
 
-[@Chumper](https://github.com/Chumper)
+Big thank you goes to [@Chumper](https://github.com/Chumper) for creating the original package [Chumper/Zipper](https://github.com/Chumper/Zipper)
