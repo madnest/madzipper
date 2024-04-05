@@ -1,55 +1,55 @@
 {
-    "name": "madnest/madzipper",
-    "description": "Wannabe successor of Chumper/Zipper package for Laravel",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jakub Theimer",
-            "email": "theimer@madne.st",
-            "homepage": "https://madne.st",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": "^7.3|^8.0",
-        "ext-zip": "*",
-        "illuminate/support": "^8.0",
-        "illuminate/filesystem": "^8.0"
-    },
-    "require-dev": {
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.0",
-        "orchestra/testbench": "^7.0",
-        "phpunit/phpunit": "^9.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Madnest\\Madzipper\\": "src/Madnest/Madzipper"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Madnest\\Madzipper\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit --colors=always",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Madnest\\Madzipper\\MadzipperServiceProvider"
-            ],
-            "aliases": {
-                "Madzipper": "Madnest\\Madzipper\\Madzipper"
-            }
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+  "name": "madnest/madzipper",
+  "description": "Wannabe successor of Chumper/Zipper package for Laravel",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jakub Theimer",
+      "email": "theimer@madne.st",
+      "homepage": "https://madne.st",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.3|^8.0",
+    "ext-zip": "*",
+    "illuminate/support": "^8.0",
+    "illuminate/filesystem": "^8.0"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.5",
+    "nunomaduro/collision": "^5.11",
+    "orchestra/testbench": "^6.43",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Madnest\\Madzipper\\": "src/Madnest/Madzipper"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Madnest\\Madzipper\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit --colors=always",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Madnest\\Madzipper\\MadzipperServiceProvider"
+      ],
+      "aliases": {
+        "Madzipper": "Madnest\\Madzipper\\Madzipper"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
