@@ -45,7 +45,7 @@ class ZipRepository implements RepositoryInterface
         $res = $this->archive->open($filePath, ($create ? ZipArchive::CREATE : null));
 
         if ($res !== true) {
-            throw new Exception("Error: Failed to open $filePath! Error: ".$this->getErrorMessage($res));
+            throw new Exception("Error: Failed to open {$filePath}! Error: ".$this->getErrorMessage($res));
         }
 
         $this->open = true;
@@ -205,7 +205,7 @@ class ZipRepository implements RepositoryInterface
             case ZipArchive::ER_SEEK:
                 return 'ZipArchive::ER_SEEK - Seek error.';
             default:
-                return "An unknown error [$resultCode] has occurred.";
+                return "An unknown error [{$resultCode}] has occurred.";
         }
     }
 }
