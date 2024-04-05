@@ -12,12 +12,12 @@ use RuntimeException;
 class MadzipperTest extends TestCase
 {
     /**
-     * @var \Madnest\Madzipper\Madzipper
+     * @var Madzipper
      */
     public $archive;
 
     /**
-     * @var \Mockery\Mock
+     * @var Mockery\Mock
      */
     public $file;
 

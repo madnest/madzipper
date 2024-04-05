@@ -77,7 +77,7 @@ class Madzipper
      * @param RepositoryInterface|string $type The type of the archive, defaults to zip, possible are zip, phar
      *
      * @throws \RuntimeException
-     * @throws \Exception
+     * @throws Exception
      * @throws \InvalidArgumentException
      *
      * @return $this Madzipper instance
@@ -114,7 +114,7 @@ class Madzipper
      * Create a new zip archive or open an existing one.
      *
      * @param string $pathToFile
-     * @throws \Exception
+     * @throws Exception
      * @return self
      */
     public function zip(string $pathToFile): self
@@ -128,7 +128,7 @@ class Madzipper
      * Create a new phar file or open one.
      *
      * @param string $pathToFile
-     * @throws \Exception
+     * @throws Exception
      * @return self
      */
     public function phar(string $pathToFile): self
@@ -142,7 +142,7 @@ class Madzipper
      * Create a new rar file or open one.
      *
      * @param string $pathToFile
-     * @throws \Exception
+     * @throws Exception
      * @return self
      */
     public function rar(string $pathToFile): self
@@ -160,7 +160,7 @@ class Madzipper
      * @param $path string The path to extract to
      * @param array $files       An array of files
      * @param int   $methodFlags The Method the files should be treated
-     * @throws \Exception
+     * @throws Exception
      * @return void
      */
     public function extractTo($path, array $files = [], $methodFlags = self::BLACKLIST): void
@@ -224,7 +224,7 @@ class Madzipper
      *
      * @param $filePath string The full path (including all folders) of the file in the zip
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return mixed returns the content or throws an exception
      */
@@ -514,7 +514,7 @@ class Madzipper
     /**
      * @param $pathToZip
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return bool
      */
