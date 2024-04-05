@@ -1,13 +1,27 @@
 {
   "name": "madnest/madzipper",
-  "description": "Wannabe successor of Chumper/Zipper package for Laravel",
+  "description": "Easier zip file handling for Laravel applications.",
   "type": "library",
+  "version": "1.5.0",
+  "keywords": [
+    "zip",
+    "php",
+    "laravel",
+    "ziparchive"
+  ],
+  "homepage": "https://github.com/madnest/madzipper",
   "license": "MIT",
   "authors": [
     {
+      "name": "Nils Plaschke",
+      "email": "github@nilsplaschke.de",
+      "homepage": "http://nilsplaschke.de",
+      "role": "Original author"
+    },
+    {
       "name": "Jakub Theimer",
-      "email": "theimer@madne.st",
-      "homepage": "https://madne.st",
+      "email": "jakub@dy.st",
+      "homepage": "https://dy.st",
       "role": "Developer"
     }
   ],
