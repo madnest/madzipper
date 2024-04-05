@@ -32,22 +32,22 @@ class Madzipper
     /**
      * @var string Represents the current location in the archive
      */
-    private $currentFolder = '';
+    private string $currentFolder = '';
 
     /**
      * @var Filesystem Handler to the file system
      */
-    private $file;
+    private Filesystem $file;
 
     /**
      * @var RepositoryInterface Handler to the archive
      */
-    private $repository;
+    private ?RepositoryInterface $repository = null;
 
     /**
      * @var string The path to the current zip file
      */
-    private $filePath;
+    private string $filePath;
 
     /**
      * Constructor.
@@ -59,6 +59,8 @@ class Madzipper
 
     /**
      * Destructor.
+     *
+     * @return void
      */
     public function __destruct()
     {
@@ -75,15 +77,14 @@ class Madzipper
      * Create a new zip Archive if the file does not exists
      * opens a zip archive if the file exists.
      *
-     * @param  $pathToFile  string The file to open
+     * @param  string  $pathToFile  The file to open
      * @param  RepositoryInterface|string  $type  The type of the archive, defaults to zip, possible are zip, phar
-     * @return $this Madzipper instance
      *
      * @throws \RuntimeException
      * @throws \Exception
      * @throws \InvalidArgumentException
      */
-    public function make($pathToFile, $type = 'zip'): self
+    public function make(string $pathToFile, RepositoryInterface|string $type = 'zip'): self
     {
         $new = $this->createArchiveFile($pathToFile);
 
@@ -158,7 +159,7 @@ class Madzipper
      *
      * @throws \Exception
      */
-    public function extractTo($path, array $files = [], $methodFlags = self::BLACKLIST): void
+    public function extractTo(string $path, array $files = [], $methodFlags = self::BLACKLIST): void
     {
         if (! $this->file->exists($path) && ! $this->file->makeDirectory($path, 0755, true)) {
             throw new \RuntimeException('Failed to create folder');
@@ -193,7 +194,7 @@ class Madzipper
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function extractMatchingRegex($extractToPath, $regex)
+    public function extractMatchingRegex(string $extractToPath, string $regex): void
     {
         if (empty($regex)) {
             throw new \InvalidArgumentException('Missing pass valid regex parameter');
@@ -207,7 +208,7 @@ class Madzipper
                 //invalid pattern for preg_match raises E_WARNING and returns FALSE
                 //so if you have custom error_handler set to catch and throw E_WARNINGs you never end up here
                 //but if you have not - this will throw exception
-                throw new \RuntimeException("regular expression match on '$filename' failed with error. Please check if pattern is valid regular expression.");
+                throw new \RuntimeException("Regular expression match on '{$filename}' failed with error. Please check if pattern is valid regular expression.");
             }
 
             return false;
@@ -236,9 +237,8 @@ class Madzipper
      *
      * @param  $pathToAdd  array|string An array or string of files and folders to add
      * @param  null|mixed  $fileName
-     * @return $this Madzipper instance
      */
-    public function add($pathToAdd, $fileName = null)
+    public function add(string|array $pathToAdd, ?string $fileName = null): Madzipper
     {
         if (is_array($pathToAdd)) {
             foreach ($pathToAdd as $key => $dir) {
@@ -263,11 +263,8 @@ class Madzipper
 
     /**
      * Add an empty directory.
-     *
-     *
-     * @return Madzipper
      */
-    public function addEmptyDir($dirName)
+    public function addEmptyDir(string $dirName): Madzipper
     {
         $this->repository->addEmptyDir($dirName);
 
@@ -281,7 +278,7 @@ class Madzipper
      * @param  $content  string The file contents
      * @return $this Madzipper instance
      */
-    public function addString($filename, $content)
+    public function addString(string $filename, string $content): Madzipper
     {
         $this->addFromString($filename, $content);
 
@@ -293,7 +290,7 @@ class Madzipper
      *
      * @return int The status of the internal zip file
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->repository->getStatus();
     }
@@ -304,7 +301,7 @@ class Madzipper
      * @param  $fileToRemove  array|string The path/array to the files in the zip
      * @return $this Madzipper instance
      */
-    public function remove($fileToRemove)
+    public function remove(string|array $fileToRemove): Madzipper
     {
         if (is_array($fileToRemove)) {
             $self = $this;
@@ -325,18 +322,15 @@ class Madzipper
      *
      * @return string The path to the file
      */
-    public function getFilePath()
+    public function getFilePath(): string
     {
         return $this->filePath;
     }
 
     /**
      * Sets the password to be used for decompressing.
-     *
-     *
-     * @return bool
      */
-    public function usePassword($password)
+    public function usePassword(string $password): bool
     {
         return $this->repository->usePassword($password);
     }
@@ -344,7 +338,7 @@ class Madzipper
     /**
      * Closes the zip file and frees all handles.
      */
-    public function close()
+    public function close(): void
     {
         if ($this->repository !== null) {
             $this->repository->close();
@@ -355,11 +349,8 @@ class Madzipper
     /**
      * Sets the internal folder to the given path.<br/>
      * Useful for extracting only a segment of a zip file.
-     *
-     *
-     * @return $this
      */
-    public function folder($path)
+    public function folder(string $path): self
     {
         $this->currentFolder = $path;
 
@@ -368,10 +359,8 @@ class Madzipper
 
     /**
      * Resets the internal folder to the root of the zip file.
-     *
-     * @return $this
      */
-    public function home()
+    public function home(): self
     {
         $this->currentFolder = '';
 
@@ -381,7 +370,7 @@ class Madzipper
     /**
      * Deletes the archive file.
      */
-    public function delete()
+    public function delete(): void
     {
         if ($this->repository !== null) {
             $this->repository->close();
@@ -393,57 +382,42 @@ class Madzipper
 
     /**
      * Get the type of the Archive.
-     *
-     * @return string
      */
-    public function getArchiveType()
+    public function getArchiveType(): string
     {
         return get_class($this->repository);
     }
 
     /**
      * Get the current internal folder pointer.
-     *
-     * @return string
      */
-    public function getCurrentFolderPath()
+    public function getCurrentFolderPath(): string
     {
         return $this->currentFolder;
     }
 
     /**
      * Checks if a file is present in the archive.
-     *
-     *
-     * @return bool
      */
-    public function contains($fileInArchive)
+    public function contains(string $fileInArchive): bool
     {
         return $this->repository->fileExists($fileInArchive);
     }
 
-    /**
-     * @return RepositoryInterface
-     */
-    public function getRepository()
+    public function getRepository(): RepositoryInterface
     {
         return $this->repository;
     }
 
-    /**
-     * @return Filesystem
-     */
-    public function getFileHandler()
+    public function getFileHandler(): Filesystem
     {
         return $this->file;
     }
 
     /**
      * Gets the path to the internal folder.
-     *
-     * @return string
      */
-    public function getInternalPath()
+    public function getInternalPath(): string
     {
         return empty($this->currentFolder) ? '' : $this->currentFolder.'/';
     }
@@ -452,11 +426,10 @@ class Madzipper
      * List all files that are within the archive.
      *
      * @param  string|null  $regexFilter  regular expression to filter returned files/folders. See @link http://php.net/manual/en/reference.pcre.pattern.syntax.php
-     * @return array
      *
      * @throws \RuntimeException
      */
-    public function listFiles($regexFilter = null)
+    public function listFiles(?string $regexFilter = null): array
     {
         $filesList = [];
         if ($regexFilter) {
@@ -470,7 +443,7 @@ class Madzipper
                 if ($match === 1) {
                     $filesList[] = $file;
                 } elseif ($match === false) {
-                    throw new \RuntimeException("regular expression match on '$file' failed with error. Please check if pattern is valid regular expression.");
+                    throw new \RuntimeException("Regular expression match on '{$file}' failed with error. Please check if pattern is valid regular expression.");
                 }
             };
         } else {
@@ -483,7 +456,10 @@ class Madzipper
         return $filesList;
     }
 
-    private function getCurrentFolderWithTrailingSlash()
+    /**
+     * Get the current folder with trailing slash.
+     */
+    private function getCurrentFolderWithTrailingSlash(): string
     {
         if (empty($this->currentFolder)) {
             return '';
@@ -498,11 +474,11 @@ class Madzipper
     }
 
     /**
-     * @return bool
+     * Create archive file.
      *
      * @throws \Exception
      */
-    private function createArchiveFile($pathToZip)
+    private function createArchiveFile(string $pathToZip): bool
     {
         if (! $this->file->exists($pathToZip)) {
             $dirname = dirname($pathToZip);
@@ -518,7 +494,10 @@ class Madzipper
         return false;
     }
 
-    private function addDir($pathToDir)
+    /**
+     * Add a directory.
+     */
+    private function addDir(string $pathToDir): void
     {
         // First go over the files in this directory and add them to the repository.
         foreach ($this->file->files($pathToDir) as $file) {
@@ -536,11 +515,8 @@ class Madzipper
 
     /**
      * Add the file to the zip.
-     *
-     * @param  string  $pathToAdd
-     * @param  string  $fileName
      */
-    private function addFile($pathToAdd, $fileName = null)
+    private function addFile(string $pathToAdd, ?string $fileName = null): void
     {
         if (! $fileName) {
             $info = pathinfo($pathToAdd);
@@ -554,12 +530,18 @@ class Madzipper
     /**
      * Add the file to the zip from content.
      */
-    private function addFromString($filename, $content)
+    private function addFromString(string $filename, string $content): void
     {
         $this->repository->addFromString($this->getInternalPath().$filename, $content);
     }
 
-    private function extractFilesInternal($path, callable $matchingMethod)
+    /**
+     * Extracts files from the archive.
+     *
+     * @param  string  $path  The path to extract to
+     * @param  callable  $matchingMethod  The method to match files
+     */
+    private function extractFilesInternal(string $path, callable $matchingMethod): void
     {
         $self = $this;
         $this->repository->each(function ($file) use ($path, $matchingMethod, $self) {
@@ -576,11 +558,11 @@ class Madzipper
     }
 
     /**
-     * @param  $fileName
+     * Extract single file from the archive.
      *
      * @throws \RuntimeException
      */
-    private function extractOneFileInternal($file, $path)
+    private function extractOneFileInternal(string $file, string $path): void
     {
         $tmpPath = str_replace($this->getInternalPath(), '', $file);
 
