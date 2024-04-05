@@ -19,8 +19,8 @@
   },
   "require-dev": {
     "mockery/mockery": "^1.4.4",
-    "nunomaduro/collision": "^6.0",
-    "orchestra/testbench": "^7.0",
+    "nunomaduro/collision": "^5.0|^6.0",
+    "orchestra/testbench": "^5.0|^6.0",
     "phpunit/phpunit": "^9.5"
   },
   "autoload": {
