@@ -17,9 +17,7 @@ class MadzipperServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application events.
      */
-    public function boot()
-    {
-    }
+    public function boot() {}
 
     /**
      * Register the service provider.

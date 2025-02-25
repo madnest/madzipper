@@ -1,8 +1,3 @@
-# Note
-
-This is a very early stage package that aims to become a successor of [chumper/zipper](https://github.com/Chumper/Zipper) package.
-It started as a fork because we needed Laravel 6.0 compatibility. I will try to make it compatible with Laravel 6 and up.
-
 # Madzipper
 
 This is a simple Wrapper around the ZipArchive methods with some handy functions.
@@ -11,14 +6,27 @@ This is a simple Wrapper around the ZipArchive methods with some handy functions
 
 ## Installation
 
-1. `"madnest/madzipper": "1.0.x"` can be installed by running `composer require madnest/madzipper`
+1. `madnest/madzipper` can be installed by running:
 
-2. Optionally when using with Laravel 8, 7 or 6, go to `app/config/app.php`
+```bash
+composer require madnest/madzipper
+```
 
--   add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
--   add to aliases `'Madzipper' => Madnest\Madzipper\Madzipper::class`
+2. Optionally when using with Laravel, go to `app/config/app.php`
+
+- add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
 
 You can now access Madzipper with the `Madzipper` alias.
+
+## Versions
+
+| Package  | Laravel       | PHP    |
+| :------- | :------------ | :----- |
+| **v1.6** | `11.*` `12.*` | `^8.2` |
+| **v1.5** | `11.*`        | `^8.2` |
+| **v1.4** | `10.*`        | `^8.1` |
+| **v1.3** | `9.*`         | `^8.0` |
+| **v1.2** | `8.*`         | `^8.0` |
 
 ## Simple Laravel example by using Madzipper facade
 
@@ -27,7 +35,7 @@ $files = glob('public/files/*');
 Madzipper::make('public/test.zip')->add($files)->close();
 ```
 
--   by default the package will create the `test.zip` in the project route folder but in the example above we changed it to `project_route/public/`.
+- by default the package will create the `test.zip` in the project route folder but in the example above we changed it to `project_route/public/`.
 
 ## Another example
 
@@ -164,8 +172,8 @@ Madzipper::make('test.zip')
 
 Which will extract the `test.zip` into the `public` folder but **only** files/folders **exact matching names**. So this will:
 
--   extract file or folder named `composer` in folder named `vendor` inside zip to `public` resulting `public/composer`
--   extract file or folder named `bin/phpunit` in `vendor/bin/phpunit` folder inside zip to `public` resulting `public/bin/phpunit`
+- extract file or folder named `composer` in folder named `vendor` inside zip to `public` resulting `public/composer`
+- extract file or folder named `bin/phpunit` in `vendor/bin/phpunit` folder inside zip to `public` resulting `public/bin/phpunit`
 
 > **NB:** extracting files/folder from zip without setting Madzipper::EXACT_MATCH
 > When zip has similar structure as below and only `test.bat` is given as whitelist/blacklist argument then `extractTo` would extract all those files and folders as they all start with given string
@@ -204,9 +212,13 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-# Development
+## Development
 
 Maybe it is a good idea to add other compression functions like rar, phar or bzip2 etc...
 Everything is setup for that, if you want just fork and develop further.
 
 If you need other functions or got errors, please leave an issue on github.
+
+## Credits
+
+Big thank you goes to [@Chumper](https://github.com/Chumper) for creating the original package [Chumper/Zipper](https://github.com/Chumper/Zipper)

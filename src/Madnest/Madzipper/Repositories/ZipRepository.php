@@ -7,109 +7,117 @@ use ZipArchive;
 
 class ZipRepository implements RepositoryInterface
 {
-    private $archive;
+    private ?ZipArchive $archive = null;
+
+    public bool $open = false;
 
     /**
-     * Construct with a given path
-     *
-     * @param $filePath
-     * @param bool $create
-     * @param $archive
+     * Construct with a given path.
      *
      * @throws \Exception
-     *
-     * @return ZipRepository
      */
-    public function __construct($filePath, $create = false, $archive = null)
+    public function __construct(string $filePath, bool $create = false, mixed $archive = null)
     {
-        //Check if ZipArchive is available
+        // Check if ZipArchive is available
         if (! class_exists('ZipArchive')) {
             throw new Exception('Error: Your PHP version is not compiled with zip support');
         }
-        $this->archive = $archive ? $archive : new ZipArchive();
 
-        $res = $this->archive->open($filePath, ($create ? ZipArchive::CREATE : null));
-        if ($res !== true) {
-            throw new Exception("Error: Failed to open $filePath! Error: " . $this->getErrorMessage($res));
-        }
+        $this->archive = $archive ? $archive : new ZipArchive;
+
+        $this->open($filePath, $create);
     }
 
     /**
-     * Add a file to the opened Archive
+     * Open the archive.
      *
-     * @param $pathToFile
-     * @param $pathInArchive
+     * @throws Exception
      */
-    public function addFile($pathToFile, $pathInArchive)
+    protected function open(string $filePath, bool $create = false): void
+    {
+        $res = $this->archive->open($filePath, ($create ? ZipArchive::CREATE : 0));
+
+        if ($res !== true) {
+            throw new Exception("Error: Failed to open {$filePath}! Error: ".$this->getErrorMessage($res));
+        }
+
+        $this->open = true;
+    }
+
+    /**
+     * Check if the archive is open.
+     */
+    public function isOpen(): bool
+    {
+        return $this->open ? true : false;
+    }
+
+    /**
+     * Check if the archive is closed.
+     */
+    public function isClosed(): bool
+    {
+        return ! $this->open ? true : false;
+    }
+
+    /**
+     * Add a file to the opened Archive.
+     */
+    public function addFile(string $pathToFile, string $pathInArchive): void
     {
         $this->archive->addFile($pathToFile, $pathInArchive);
     }
 
     /**
-     * Add an empty directory
-     *
-     * @param $dirName
+     * Add an empty directory.
      */
-    public function addEmptyDir($dirName)
+    public function addEmptyDir(string $dirName): void
     {
         $this->archive->addEmptyDir($dirName);
     }
 
     /**
-     * Add a file to the opened Archive using its contents
-     *
-     * @param $name
-     * @param $content
+     * Add a file to the opened Archive using its contents.
      */
-    public function addFromString($name, $content)
+    public function addFromString(string $name, string $content): void
     {
         $this->archive->addFromString($name, $content);
     }
 
     /**
-     * Remove a file permanently from the Archive
-     *
-     * @param $pathInArchive
+     * Remove a file permanently from the Archive.
      */
-    public function removeFile($pathInArchive)
+    public function removeFile(string $pathInArchive): void
     {
         $this->archive->deleteName($pathInArchive);
     }
 
     /**
-     * Get the content of a file
-     *
-     * @param $pathInArchive
+     * Get the content of a file.
      *
      * @return string
      */
-    public function getFileContent($pathInArchive)
+    public function getFileContent(string $pathInArchive): string|false
     {
         return $this->archive->getFromName($pathInArchive);
     }
 
     /**
-     * Get the stream of a file
-     *
-     * @param $pathInArchive
-     *
-     * @return mixed
+     * Get the stream of a file.
      */
-    public function getFileStream($pathInArchive)
+    public function getFileStream(string $pathInArchive): mixed
     {
         return $this->archive->getStream($pathInArchive);
     }
 
     /**
      * Will loop over every item in the archive and will execute the callback on them
-     * Will provide the filename for every item
-     *
-     * @param $callback
+     * Will provide the filename for every item.
      */
-    public function each($callback)
+    public function each(callable $callback): void
     {
-        for ($i = 0; $i < $this->archive->numFiles; ++$i) {
-            //skip if folder
+        for ($i = 0; $i < $this->archive->numFiles; $i++) {
+            // skip if folder
             $stats = $this->archive->statIndex($i);
             if ($stats['size'] === 0 && $stats['crc'] === 0) {
                 continue;
@@ -119,49 +127,46 @@ class ZipRepository implements RepositoryInterface
     }
 
     /**
-     * Checks whether the file is in the archive
-     *
-     * @param $fileInArchive
-     *
-     * @return bool
+     * Checks whether the file is in the archive.
      */
-    public function fileExists($fileInArchive)
+    public function fileExists(string $fileInArchive): bool
     {
         return $this->archive->locateName($fileInArchive) !== false;
     }
 
     /**
      * Sets the password to be used for decompressing
-     * function named usePassword for clarity
-     *
-     * @param $password
-     *
-     * @return bool
+     * function named usePassword for clarity.
      */
-    public function usePassword($password)
+    public function usePassword(string $password): bool
     {
         return $this->archive->setPassword($password);
     }
 
     /**
-     * Returns the status of the archive as a string
-     *
-     * @return string
+     * Returns the status of the archive as a string.
      */
-    public function getStatus()
+    public function getStatus(): string|false
     {
         return $this->archive->getStatusString();
     }
 
     /**
-     * Closes the archive and saves it
+     * Closes the archive and saves it.
      */
-    public function close()
+    public function close(): bool
     {
-        @$this->archive->close();
+        $this->open = false;
+
+        return $this->archive->close();
     }
 
-    private function getErrorMessage($resultCode)
+    /**
+     * Get error message.
+     *
+     * @param  mixed  $resultCode
+     */
+    private function getErrorMessage(int $resultCode): string
     {
         switch ($resultCode) {
             case ZipArchive::ER_EXISTS:
@@ -181,7 +186,7 @@ class ZipRepository implements RepositoryInterface
             case ZipArchive::ER_SEEK:
                 return 'ZipArchive::ER_SEEK - Seek error.';
             default:
-                return "An unknown error [$resultCode] has occurred.";
+                return "An unknown error [{$resultCode}] has occurred.";
         }
     }
     

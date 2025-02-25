@@ -8,13 +8,6 @@ use Madnest\Madzipper\Tests\TestCase;
 use Mockery;
 use ZipArchive;
 
-/**
- * Created by JetBrains PhpStorm.
- * User: Nils
- * Date: 28.08.13
- * Time: 20:57
- * To change this template use File | Settings | File Templates.
- */
 class ZipRepositoryTest extends TestCase
 {
     /**
@@ -27,9 +20,9 @@ class ZipRepositoryTest extends TestCase
      */
     public $mock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->mock = Mockery::mock(new ZipArchive());
+        $this->mock = Mockery::mock(new ZipArchive);
         $this->zip = new ZipRepository('foo', true, $this->mock);
 
         parent::setUp();
@@ -60,11 +53,12 @@ class ZipRepositoryTest extends TestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/Error: Failed to open (.*)ZipRepositoryTest.php! Error: ZipArchive::ER_NOZIP - Not a zip archive./');
-        new ZipRepository(__DIR__ . DIRECTORY_SEPARATOR . 'ZipRepositoryTest.php', false);
+        new ZipRepository(__DIR__.DIRECTORY_SEPARATOR.'ZipRepositoryTest.php', false);
     }
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_can_add_files()
@@ -80,6 +74,7 @@ class ZipRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_can_remove_files()
@@ -129,6 +124,7 @@ class ZipRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      * */
     public function it_can_close()

@@ -4,3 +4,6 @@ composer.lock
 .DS_Store
 /.idea
 .phpunit.result.cache
+.php-cs-fixer.cache
+.phpunit.cache
+.phpactor.json

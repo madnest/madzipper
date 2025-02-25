@@ -1,54 +1,74 @@
 {
-    "name": "madnest/madzipper",
-    "description": "Wannabe successor of Chumper/Zipper package for Laravel",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jakub Theimer",
-            "email": "theimer@madne.st",
-            "homepage": "https://madne.st",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=7.2.0",
-        "ext-zip": "*",
-        "illuminate/support": "^6.18|^7.0|^8.0",
-        "illuminate/filesystem": "^6.18|^7.0|^8.0"
+  "name": "madnest/madzipper",
+  "description": "Easier zip file handling for Laravel applications.",
+  "type": "library",
+  "version": "1.6.0",
+  "keywords": [
+    "zip",
+    "php",
+    "laravel",
+    "ziparchive"
+  ],
+  "homepage": "https://github.com/madnest/madzipper",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nils Plaschke",
+      "email": "github@nilsplaschke.de",
+      "homepage": "http://nilsplaschke.de",
+      "role": "Original author"
     },
-    "require-dev": {
-        "mockery/mockery": "^1.3",
-        "orchestra/testbench": "^5.1",
-        "phpunit/phpunit": "^8.0|^9.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Madnest\\Madzipper\\": "src/Madnest/Madzipper"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Madnest\\Madzipper\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit --colors=always",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Madnest\\Madzipper\\MadzipperServiceProvider"
-            ],
-            "aliases": {
-                "Madzipper": "Madnest\\Madzipper\\Madzipper"
-            }
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    {
+      "name": "Jakub Theimer",
+      "email": "jakub@dy.st",
+      "homepage": "https://dy.st",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "ext-zip": "*",
+    "illuminate/support": "^11.0|^12.0",
+    "illuminate/filesystem": "^11.0|^12.0"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.15",
+    "mockery/mockery": "^1.4.4",
+    "nunomaduro/collision": "^8.0",
+    "orchestra/testbench": "^9.0|^10.0",
+    "phpunit/phpunit": "^10.5|^11.5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Madnest\\Madzipper\\": "src/Madnest/Madzipper"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Madnest\\Madzipper\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": "@composer run prepare",
+    "clear": "@php vendor/bin/testbench package:purge --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+    "format": "vendor/bin/pint"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Madnest\\Madzipper\\MadzipperServiceProvider"
+      ],
+      "aliases": {
+        "Madzipper": "Madnest\\Madzipper\\Madzipper"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
