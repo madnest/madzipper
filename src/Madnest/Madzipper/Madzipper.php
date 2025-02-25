@@ -208,7 +208,7 @@ class Madzipper
                 // invalid pattern for preg_match raises E_WARNING and returns FALSE
                 // so if you have custom error_handler set to catch and throw E_WARNINGs you never end up here
                 // but if you have not - this will throw exception
-                throw new \RuntimeException("regular expression match on '$filename' failed with error. Please check if pattern is valid regular expression.");
+                throw new \RuntimeException("regular expression match on '{$filename}' failed with error. Please check if pattern is valid regular expression.");
             }
 
             return false;
