@@ -13,9 +13,7 @@ class ArrayArchive implements RepositoryInterface
      *
      * @param  bool  $new
      */
-    public function __construct($filePath, $new = false, $archiveImplementation = null)
-    {
-    }
+    public function __construct(string $filePath, bool $create = false, mixed $archive = null) {}
 
     /**
      * Check if the archive is open.
@@ -108,9 +106,7 @@ class ArrayArchive implements RepositoryInterface
     /**
      * Closes the archive and saves it.
      */
-    public function close(): void
-    {
-    }
+    public function close(): void {}
 
     /**
      * Add an empty directory.

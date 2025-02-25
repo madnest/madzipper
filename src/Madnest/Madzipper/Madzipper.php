@@ -54,7 +54,7 @@ class Madzipper
      */
     public function __construct(?Filesystem $fs = null)
     {
-        $this->file = $fs ? $fs : new Filesystem();
+        $this->file = $fs ? $fs : new Filesystem;
     }
 
     /**
@@ -204,10 +204,10 @@ class Madzipper
             if ($match === 1) {
                 return true;
             } elseif ($match === false) {
-                //invalid pattern for preg_match raises E_WARNING and returns FALSE
-                //so if you have custom error_handler set to catch and throw E_WARNINGs you never end up here
-                //but if you have not - this will throw exception
-                throw new \RuntimeException("regular expression match on '$filename' failed with error. Please check if pattern is valid regular expression.");
+                // invalid pattern for preg_match raises E_WARNING and returns FALSE
+                // so if you have custom error_handler set to catch and throw E_WARNINGs you never end up here
+                // but if you have not - this will throw exception
+                throw new \RuntimeException("Regular expression match on '{$filename}' failed with error. Please check if pattern is valid regular expression.");
             }
 
             return false;
@@ -462,8 +462,7 @@ class Madzipper
         if ($regexFilter) {
             $filter = function ($file) use (&$filesList, $regexFilter) {
                 // push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
-                set_error_handler(function () {
-                });
+                set_error_handler(function () {});
                 $match = preg_match($regexFilter, $file);
                 restore_error_handler();
 
@@ -584,7 +583,7 @@ class Madzipper
     {
         $tmpPath = str_replace($this->getInternalPath(), '', $file);
 
-        //Prevent Zip traversal attacks
+        // Prevent Zip traversal attacks
         if (strpos($file, '../') !== false || strpos($file, '..\\') !== false) {
             throw new \RuntimeException('Special characters found within filenames');
         }
