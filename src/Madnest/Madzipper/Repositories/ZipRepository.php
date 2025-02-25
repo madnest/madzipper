@@ -189,4 +189,20 @@ class ZipRepository implements RepositoryInterface
                 return "An unknown error [{$resultCode}] has occurred.";
         }
     }
+
+    /**
+     * Set password for file entry by name.
+     */
+    public function setEncryptionName(string $name, int $method, #[\SensitiveParameter] ?string $password = null): bool
+    {
+        return $this->archive->setEncryptionName($name, $method, $password);
+    }
+
+    /**
+     * Set password for file entry by index.
+     */
+    public function setEncryptionIndex(int $index, int $method, #[\SensitiveParameter] ?string $password = null): bool
+    {
+        return $this->archive->setEncryptionIndex($index, $method, $password);
+    }
 }
