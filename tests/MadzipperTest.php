@@ -21,9 +21,9 @@ class MadzipperTest extends TestCase
      */
     public $file;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->file = Mockery::mock(new Filesystem());
+        $this->file = Mockery::mock(new Filesystem);
         $this->archive = new Madzipper($this->file);
         $this->archive->make('foo', new \Madnest\Madzipper\Tests\ArrayArchive('foo', true));
 
@@ -162,7 +162,7 @@ class MadzipperTest extends TestCase
 
         $this->assertFalse($this->archive->contains('foo'));
 
-        //----
+        // ----
 
         $this->file->shouldReceive('isFile')->with('foo')
             ->andReturn(true);
@@ -441,21 +441,21 @@ class MadzipperTest extends TestCase
         $this->archive->folder('foo/bar');
         $this->assertSame('foo/bar', $this->archive->getCurrentFolderPath());
 
-        //----
+        // ----
 
         $this->file->shouldReceive('isFile')->with('foo')->andReturn(true);
 
         $this->archive->add('foo');
         $this->assertSame('foo/bar/foo', $this->archive->getFileContent('foo/bar/foo'));
 
-        //----
+        // ----
 
         $this->file->shouldReceive('isFile')->with('bar')->andReturn(true);
 
         $this->archive->home()->add('bar');
         $this->assertSame('bar', $this->archive->getFileContent('bar'));
 
-        //----
+        // ----
 
         $this->file->shouldReceive('isFile')->with('baz/bar/bing')->andReturn(true);
 

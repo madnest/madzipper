@@ -20,9 +20,9 @@ class ZipRepositoryTest extends TestCase
      */
     public $mock;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->mock = Mockery::mock(new ZipArchive());
+        $this->mock = Mockery::mock(new ZipArchive);
         $this->zip = new ZipRepository('foo', true, $this->mock);
 
         parent::setUp();

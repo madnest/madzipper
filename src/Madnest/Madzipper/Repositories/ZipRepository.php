@@ -23,7 +23,7 @@ class ZipRepository implements RepositoryInterface
             throw new Exception('Error: Your PHP version is not compiled with zip support');
         }
 
-        $this->archive = $archive ? $archive : new ZipArchive();
+        $this->archive = $archive ? $archive : new ZipArchive;
 
         $this->open($filePath, $create);
     }
@@ -117,7 +117,7 @@ class ZipRepository implements RepositoryInterface
     public function each(callable $callback): void
     {
         for ($i = 0; $i < $this->archive->numFiles; $i++) {
-            //skip if folder
+            // skip if folder
             $stats = $this->archive->statIndex($i);
             if ($stats['size'] === 0 && $stats['crc'] === 0) {
                 continue;
