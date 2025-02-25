@@ -34,14 +34,14 @@ class ZipRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function a_zip_repository_can_be_made()
+    public function a_zip_repository_can_be_made(): void
     {
         $zip = new ZipRepository('foo.zip', true);
         $this->assertFalse($zip->fileExists('foo'));
     }
 
     /** @test */
-    public function it_throws_an_exception_when_trying_to_open_non_existing_zip()
+    public function it_throws_an_exception_when_trying_to_open_non_existing_zip(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Error: Failed to open idonotexist.zip! Error: ZipArchive::ER_');
@@ -49,7 +49,7 @@ class ZipRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_when_trying_to_open_something_else_than_a_zip()
+    public function it_throws_an_exception_when_trying_to_open_something_else_than_a_zip(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/Error: Failed to open (.*)ZipRepositoryTest.php! Error: ZipArchive::ER_NOZIP - Not a zip archive./');
@@ -61,7 +61,7 @@ class ZipRepositoryTest extends TestCase
      *
      * @doesNotPerformAssertions
      * */
-    public function it_can_add_files()
+    public function it_can_add_files(): void
     {
         $this->mock->shouldReceive('addFile')->once()->with('bar', 'bar');
         $this->mock->shouldReceive('addFile')->once()->with('bar', 'foo/bar');
@@ -77,7 +77,7 @@ class ZipRepositoryTest extends TestCase
      *
      * @doesNotPerformAssertions
      * */
-    public function it_can_remove_files()
+    public function it_can_remove_files(): void
     {
         $this->mock->shouldReceive('deleteName')->once()->with('bar');
         $this->mock->shouldReceive('deleteName')->once()->with('foo/bar');
@@ -87,7 +87,7 @@ class ZipRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_file_content()
+    public function it_can_get_file_content(): void
     {
         $this->mock->shouldReceive('getFromName')->once()
             ->with('bar')->andReturn('foo');
@@ -99,7 +99,7 @@ class ZipRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function is_can_get_file_stream()
+    public function is_can_get_file_stream(): void
     {
         $this->mock->shouldReceive('getStream')->once()
             ->with('bar')->andReturn('foo');
@@ -111,7 +111,7 @@ class ZipRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_tell_wether_file_exists()
+    public function it_can_tell_wether_file_exists(): void
     {
         $this->mock->shouldReceive('locateName')->once()
             ->with('bar')->andReturn(true);
@@ -122,13 +122,49 @@ class ZipRepositoryTest extends TestCase
         $this->assertFalse($this->zip->fileExists('foo/bar'));
     }
 
-    /**
+    /*
      * @test
      *
      * @doesNotPerformAssertions
      * */
-    public function it_can_close()
+    public function it_can_close(): void
     {
         $this->zip->close();
+    }
+
+    /** @test */
+    public function it_can_set_encryption_by_name(): void
+    {
+        $this->mock->shouldReceive('setEncryptionName')->once()
+            ->with('file.txt', ZipArchive::EM_AES_256, 'password')->andReturn(true);
+        $this->mock->shouldReceive('setEncryptionName')->once()
+            ->with('another-file.txt', ZipArchive::EM_AES_128, 'different-password')->andReturn(false);
+
+        $this->assertTrue($this->zip->setEncryptionName('file.txt', ZipArchive::EM_AES_256, 'password'));
+        $this->assertFalse($this->zip->setEncryptionName('another-file.txt', ZipArchive::EM_AES_128, 'different-password'));
+    }
+
+    /** @test */
+    public function it_can_set_encryption_by_index(): void
+    {
+        $this->mock->shouldReceive('setEncryptionIndex')->once()
+            ->with(0, ZipArchive::EM_AES_256, 'password')->andReturn(true);
+        $this->mock->shouldReceive('setEncryptionIndex')->once()
+            ->with(1, ZipArchive::EM_AES_128, 'different-password')->andReturn(false);
+
+        $this->assertTrue($this->zip->setEncryptionIndex(0, ZipArchive::EM_AES_256, 'password'));
+        $this->assertFalse($this->zip->setEncryptionIndex(1, ZipArchive::EM_AES_128, 'different-password'));
+    }
+
+    /** @test */
+    public function it_can_set_encryption_without_password(): void
+    {
+        $this->mock->shouldReceive('setEncryptionName')->once()
+            ->with('file.txt', ZipArchive::EM_AES_256, null)->andReturn(true);
+        $this->mock->shouldReceive('setEncryptionIndex')->once()
+            ->with(0, ZipArchive::EM_AES_256, null)->andReturn(true);
+
+        $this->assertTrue($this->zip->setEncryptionName('file.txt', ZipArchive::EM_AES_256));
+        $this->assertTrue($this->zip->setEncryptionIndex(0, ZipArchive::EM_AES_256));
     }
 }
