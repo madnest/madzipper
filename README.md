@@ -8,24 +8,25 @@ This is a simple Wrapper around the ZipArchive methods with some handy functions
 
 1. `madnest/madzipper` can be installed by running:
 
-``` bash
+```bash
 composer require madnest/madzipper
 ```
 
 2. Optionally when using with Laravel, go to `app/config/app.php`
 
--   add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
+- add to providers `Madnest\Madzipper\MadzipperServiceProvider::class`
 
 You can now access Madzipper with the `Madzipper` alias.
 
 ## Versions
 
-| Package  | Laravel            | PHP       |
-|:---------|:-------------------|:----------|
-| **v1.5** | `11.*`             | `^8.2`    |
-| **v1.4** | `10.*`             | `^8.1`    |
-| **v1.3** | `9.*`              | `^8.0`    |
-| **v1.2** | `8.*`              | `^8.0`    |
+| Package  | Laravel       | PHP    |
+| :------- | :------------ | :----- |
+| **v1.6** | `11.*` `12.*` | `^8.2` |
+| **v1.5** | `11.*`        | `^8.2` |
+| **v1.4** | `10.*`        | `^8.1` |
+| **v1.3** | `9.*`         | `^8.0` |
+| **v1.2** | `8.*`         | `^8.0` |
 
 ## Simple Laravel example by using Madzipper facade
 
@@ -34,7 +35,7 @@ $files = glob('public/files/*');
 Madzipper::make('public/test.zip')->add($files)->close();
 ```
 
--   by default the package will create the `test.zip` in the project route folder but in the example above we changed it to `project_route/public/`.
+- by default the package will create the `test.zip` in the project route folder but in the example above we changed it to `project_route/public/`.
 
 ## Another example
 
@@ -171,8 +172,8 @@ Madzipper::make('test.zip')
 
 Which will extract the `test.zip` into the `public` folder but **only** files/folders **exact matching names**. So this will:
 
--   extract file or folder named `composer` in folder named `vendor` inside zip to `public` resulting `public/composer`
--   extract file or folder named `bin/phpunit` in `vendor/bin/phpunit` folder inside zip to `public` resulting `public/bin/phpunit`
+- extract file or folder named `composer` in folder named `vendor` inside zip to `public` resulting `public/composer`
+- extract file or folder named `bin/phpunit` in `vendor/bin/phpunit` folder inside zip to `public` resulting `public/bin/phpunit`
 
 > **NB:** extracting files/folder from zip without setting Madzipper::EXACT_MATCH
 > When zip has similar structure as below and only `test.bat` is given as whitelist/blacklist argument then `extractTo` would extract all those files and folders as they all start with given string
