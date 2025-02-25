@@ -533,7 +533,7 @@ class MadzipperTest extends TestCase
         $this->archive->add('foo.file');
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('regular expression match on \'foo.file\' failed with error. Please check if pattern is valid regular expression.');
+        $this->expectExceptionMessage('Regular expression match on \'foo.file\' failed with error. Please check if pattern is valid regular expression.');
 
         $invalidPattern = 'asdasd';
         $this->archive->listFiles($invalidPattern);
